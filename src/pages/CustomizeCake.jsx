@@ -1,9 +1,13 @@
-import React, { useState } from "react";
+import React, { useState } from "react"; 
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useDispatch } from "react-redux";
+import { addToCart } from "@/store/cartSlice";
 
 const CustomizeCake = () => {
+  const dispatch = useDispatch();
+
   const [formData, setFormData] = useState({
     sponge: "",
     shape: "",
@@ -15,6 +19,8 @@ const CustomizeCake = () => {
     otherShape: "",
     otherIcingFlavor: "",
     otherFilling: "",
+    photo: null,
+    specialRequest: "",
   });
 
   const spongeOptions = ["Chocolate", "Vanilla", "Yellow", "Red Velvet", "Other"];
@@ -148,6 +154,26 @@ const CustomizeCake = () => {
           ))}
         </div>
 
+        <div className="mb-4">
+          <h2 className="font-semibold mb-2">Photo or Sketch of the Cake <span className="text-gray-500 text-sm">(optional)</span></h2>
+          <Input
+            type="file"
+            accept="image/*"
+            onChange={(e) => handleChange("photo", e.target.files[0])}
+          />
+        </div>
+
+        <div className="mb-4">
+          <h2 className="font-semibold mb-2">Special Requests</h2>
+          <textarea
+            className="w-full border border-gray-300 rounded p-2"
+            rows="3"
+            placeholder="Write any specific instructions or requests here..."
+            value={formData.specialRequest}
+            onChange={(e) => handleChange("specialRequest", e.target.value)}
+          ></textarea>
+        </div>
+
         <div className="mb-4 text-center">
           <h2 className="font-semibold mb-2">Number of Servings</h2>
           {servingsOptions.map((option) => (
@@ -170,7 +196,22 @@ const CustomizeCake = () => {
 
         <button
           className="w-full bg-pink-400 hover:bg-pink-500 text-white font-semibold py-2 rounded-lg transition"
-          onClick={() => alert("Cake added to cart!")}
+          onClick={() => {
+            const sponge = formData.sponge === "Other" ? formData.otherSponge : formData.sponge;
+            const price = Number(priceMap[formData.servings]?.replace("¥", "")) || 0;
+            if (!sponge || !formData.servings) return;
+
+            dispatch(
+              addToCart({
+                name: `${sponge} Cake`,
+                price,
+                size: formData.servings,
+                quantity: 1,
+                image: "/images/custom-cake.jpg",
+              })
+            );
+          }}
+          disabled={!formData.sponge || !formData.servings}
         >
           Add to Cart
         </button>
