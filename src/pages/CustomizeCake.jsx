@@ -60,7 +60,7 @@ const CustomizeCake = () => {
 
   return (
     <div className="relative flex justify-center items-center min-h-screen bg-gradient-to-br from-pink-100 via-orange-50 to-pink-200 p-6">
-      {/* Floating Cart Button */}
+      
       <button
         className="fixed sm:absolute top-4 right-4 flex items-center justify-center gap-2 
                    bg-pink-500 text-white px-3 sm:px-4 py-2 rounded-full shadow 
@@ -78,13 +78,12 @@ const CustomizeCake = () => {
         <span className="hidden sm:inline">Cart</span>
       </button>
 
-      {/* Main Content */}
+      
       <div className="w-full max-w-3xl bg-white/95 p-6 sm:p-10 rounded-2xl shadow-2xl animate-fadeIn">
         <h1 className="text-3xl font-extrabold mb-8 text-center text-pink-700">
           🎂 Customize Your Cake
         </h1>
 
-        {/* Sections */}
         {[
           {
             title: "Choose a Cake Sponge",
@@ -126,7 +125,7 @@ const CustomizeCake = () => {
                   key={option}
                   className="flex flex-row items-center justify-center gap-3"
                 >
-                  {/* ✅ Label first (text on left), checkbox after */}
+                 
                   <Label className="font-normal text-gray-700">{option}</Label>
                   <input
                     type="checkbox"
@@ -152,7 +151,7 @@ const CustomizeCake = () => {
           </div>
         ))}
 
-        {/* Photo Upload */}
+        
         <div className="mb-10 animate-slideUp">
           <h2 className="text-lg font-semibold mb-2 text-gray-700">
             Photo or Sketch of the Cake{" "}
@@ -165,7 +164,7 @@ const CustomizeCake = () => {
           />
         </div>
 
-        {/* Special Requests */}
+        
         <div className="mb-10 animate-slideUp">
           <h2 className="text-lg font-semibold mb-2 text-gray-700">
             Special Requests
@@ -181,7 +180,6 @@ const CustomizeCake = () => {
           ></textarea>
         </div>
 
-        {/* Servings */}
         <div className="mb-10 text-center animate-slideUp">
           <h2 className="text-lg font-semibold mb-4 text-gray-700">
             Number of Servings
@@ -204,7 +202,7 @@ const CustomizeCake = () => {
           )}
         </div>
 
-        {/* Add to Cart */}
+      
         <button
           className={`w-full ${
             isAdded ? "bg-green-500" : "bg-pink-500 hover:bg-pink-600"

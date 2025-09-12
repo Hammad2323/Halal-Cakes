@@ -34,7 +34,7 @@ const CartPage = () => {
                 key={item.id || index}
                 className="flex flex-col md:flex-row md:items-center md:justify-between bg-white p-3 sm:p-4 rounded-xl shadow-md"
               >
-                {/* Left: image + name */}
+               
                 <div className="flex items-start gap-3 sm:gap-4 w-full md:w-1/2">
                   <img
                     src={item.image}
@@ -51,7 +51,7 @@ const CartPage = () => {
                       </p>
                     )}
 
-                    {/* Details */}
+                    
                     {item.details && (
                       <div className="mt-1 text-xs text-gray-500 border-t border-pink-100 pt-1">
                         <strong className="text-pink-600 text-xs sm:text-sm">
@@ -68,7 +68,7 @@ const CartPage = () => {
                       </div>
                     )}
 
-                    {/* Photo */}
+                    
                     {item.photo && (
                       <div className="mt-2">
                         <p className="text-xs text-gray-500">Photo / Sketch:</p>
@@ -81,7 +81,7 @@ const CartPage = () => {
                       </div>
                     )}
 
-                    {/* Special Request */}
+                   
                     {item.specialRequest && (
                       <div className="mt-2">
                         <p className="text-xs text-gray-500">
@@ -93,14 +93,13 @@ const CartPage = () => {
                       </div>
                     )}
 
-                    {/* Price on mobile */}
+                    
                     <div className="mt-1 block md:hidden font-semibold text-orange-800">
                       ¥{(item.price * (item.quantity || 1)).toLocaleString()}
                     </div>
                   </div>
                 </div>
 
-                {/* Middle: quantity controls */}
                 <div className="flex items-center gap-2 mt-3 md:mt-0">
                   <Button
                     variant="ghost"
@@ -134,14 +133,14 @@ const CartPage = () => {
                   </Button>
                 </div>
 
-                {/* Price on desktop */}
+                
                 <div className="hidden md:block text-right font-semibold text-orange-800">
                   ¥{(item.price * (item.quantity || 1)).toLocaleString()}
                 </div>
               </div>
             ))}
 
-            {/* Total */}
+          
             <div className="border-t pt-4 sm:pt-6 mt-4 sm:mt-6 text-right">
               <p className="text-lg sm:text-xl font-bold text-pink-700">
                 Total: ¥{calculateTotal().toLocaleString()}
@@ -157,7 +156,7 @@ const CartPage = () => {
         )}
       </div>
 
-      {/* Zoom image modal */}
+      
       {zoomImage && (
         <div
           className="fixed inset-0 bg-black/70 flex items-center justify-center z-50"
