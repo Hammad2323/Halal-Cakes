@@ -1,18 +1,20 @@
-import React, { useState } from "react"; 
-import { Checkbox } from "@/components/ui/checkbox";
+import React, { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useDispatch } from "react-redux";
 import { addToCart } from "@/store/cartSlice";
+import { ShoppingCart } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const CustomizeCake = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     sponge: "",
     shape: "",
     icing: "",
-    icingFlavors: [],
+    icingFlavors: "",
     filling: "",
     servings: "",
     otherSponge: "",
@@ -22,6 +24,8 @@ const CustomizeCake = () => {
     photo: null,
     specialRequest: "",
   });
+
+  const [isAdded, setIsAdded] = useState(false);
 
   const spongeOptions = ["Chocolate", "Vanilla", "Yellow", "Red Velvet", "Other"];
   const shapeOptions = ["Square", "Circle", "Rectangle", "Special", "Other"];
@@ -42,131 +46,70 @@ const CustomizeCake = () => {
     setFormData({ ...formData, [field]: value });
   };
 
-  const handleCheckboxChange = (option) => {
-    setFormData((prev) => {
-      const isSelected = prev.icingFlavors.includes(option);
-      const newFlavors = isSelected
-        ? prev.icingFlavors.filter((flavor) => flavor !== option)
-        : [...prev.icingFlavors, option];
-      return { ...prev, icingFlavors: newFlavors };
-    });
-  };
-
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gradient-to-br from-pink-100 via-orange-50 to-pink-200 p-4">
-      <div className="w-full max-w-lg bg-white/80 p-6 rounded-xl shadow-xl">
-        <h1 className="text-2xl font-bold mb-4 text-center">🎂 Customize Your Cake</h1>
+    <div className="flex justify-center items-center min-h-screen bg-gradient-to-br from-pink-100 via-orange-50 to-pink-200 p-6 relative">
+     
+      <button
+        className="absolute top-4 right-4 flex items-center gap-2 bg-pink-500 text-white px-4 py-2 rounded-full shadow hover:bg-pink-600 transition"
+        onClick={() => navigate("/cart")}
+      >
+        <ShoppingCart size={20} />
+        Cart
+      </button>
 
-        <div className="mb-4">
-          <h2 className="font-semibold mb-2 text-center">Choose a Cake Sponge</h2>
-          {spongeOptions.map((option) => (
-            <div key={option} className="flex items-center gap-2 mb-1 justify-center">
-              <Checkbox
-                checked={formData.sponge === option}
-                onCheckedChange={() => handleChange("sponge", option)}
-              />
-              <Label>{option}</Label>
-              {option === "Other" && formData.sponge === "Other" && (
-                <Input
-                  className="max-w-[150px]"
-                  placeholder="Enter sponge"
-                  value={formData.otherSponge}
-                  onChange={(e) => handleChange("otherSponge", e.target.value)}
-                />
-              )}
+      <div className="w-full max-w-3xl bg-white/95 p-10 rounded-2xl shadow-2xl animate-fadeIn">
+        <h1 className="text-3xl font-extrabold mb-8 text-center text-pink-700">
+          🎂 Customize Your Cake
+        </h1>
+
+       
+        {[
+          { title: "Choose a Cake Sponge", options: spongeOptions, key: "sponge", otherKey: "otherSponge" },
+          { title: "Shape", options: shapeOptions, key: "shape", otherKey: "otherShape" },
+          { title: "Choose the Icing", options: icingOptions, key: "icing" },
+          { title: "Choose Icing Flavor", options: icingFlavorOptions, key: "icingFlavors", otherKey: "otherIcingFlavor" },
+          { title: "Choose the Filling", options: fillingOptions, key: "filling", otherKey: "otherFilling" },
+        ].map((section, index) => (
+          <div key={section.key} className="mb-10 animate-slideUp" style={{ animationDelay: `${index * 0.1}s` }}>
+            <h2 className="text-lg font-semibold mb-4 text-center text-gray-700">{section.title}</h2>
+            <div className="space-y-2">
+              {section.options.map((option) => (
+                <div key={option} className="flex items-center justify-center gap-3">
+                  <input
+                    type="checkbox"
+                    className="w-5 h-5 rounded-md border-2 border-pink-400 text-pink-500 focus:ring-pink-400
+                               checked:bg-pink-500 checked:border-pink-500 transition"
+                    checked={formData[section.key] === option}
+                    onChange={() => handleChange(section.key, option)}
+                  />
+                  <Label className="font-normal text-gray-700">{option}</Label>
+                  {option === "Other" && formData[section.key] === "Other" && (
+                    <Input
+                      className="max-w-[200px]"
+                      placeholder={`Enter ${section.key}`}
+                      value={formData[section.otherKey]}
+                      onChange={(e) => handleChange(section.otherKey, e.target.value)}
+                    />
+                  )}
+                </div>
+              ))}
             </div>
-          ))}
+          </div>
+        ))}
+
+        
+        <div className="mb-10 animate-slideUp">
+          <h2 className="text-lg font-semibold mb-2 text-gray-700">
+            Photo or Sketch of the Cake <span className="text-gray-500 text-sm">(optional)</span>
+          </h2>
+          <Input type="file" accept="image/*" onChange={(e) => handleChange("photo", e.target.files[0])} />
         </div>
 
-        <div className="mb-4">
-          <h2 className="font-semibold mb-2 text-center">Shape</h2>
-          {shapeOptions.map((option) => (
-            <div key={option} className="flex items-center gap-2 mb-1 justify-center">
-              <Checkbox
-                checked={formData.shape === option}
-                onCheckedChange={() => handleChange("shape", option)}
-              />
-              <Label>{option}</Label>
-              {option === "Other" && formData.shape === "Other" && (
-                <Input
-                  className="max-w-[150px]"
-                  placeholder="Enter shape"
-                  value={formData.otherShape}
-                  onChange={(e) => handleChange("otherShape", e.target.value)}
-                />
-              )}
-            </div>
-          ))}
-        </div>
-
-        <div className="mb-4">
-          <h2 className="font-semibold mb-2 text-center">Choose the Icing</h2>
-          {icingOptions.map((option) => (
-            <div key={option} className="flex items-center gap-2 mb-1 justify-center">
-              <Checkbox
-                checked={formData.icing === option}
-                onCheckedChange={() => handleChange("icing", option)}
-              />
-              <Label>{option}</Label>
-            </div>
-          ))}
-        </div>
-
-        <div className="mb-4">
-          <h2 className="font-semibold mb-2 text-center">Choose Icing Flavors</h2>
-          {icingFlavorOptions.map((option) => (
-            <div key={option} className="flex items-center gap-2 mb-1 justify-center">
-              <Checkbox
-                checked={formData.icingFlavors.includes(option)}
-                onCheckedChange={() => handleCheckboxChange(option)}
-              />
-              <Label>{option}</Label>
-              {option === "Other" && formData.icingFlavors.includes("Other") && (
-                <Input
-                  className="max-w-[150px]"
-                  placeholder="Enter icing flavor"
-                  value={formData.otherIcingFlavor}
-                  onChange={(e) => handleChange("otherIcingFlavor", e.target.value)}
-                />
-              )}
-            </div>
-          ))}
-        </div>
-
-        <div className="mb-4">
-          <h2 className="font-semibold mb-2 text-center">Choose the Filling</h2>
-          {fillingOptions.map((option) => (
-            <div key={option} className="flex items-center gap-2 mb-1 justify-center">
-              <Checkbox
-                checked={formData.filling === option}
-                onCheckedChange={() => handleChange("filling", option)}
-              />
-              <Label>{option}</Label>
-              {option === "Other" && formData.filling === "Other" && (
-                <Input
-                  className="max-w-[150px]"
-                  placeholder="Enter filling"
-                  value={formData.otherFilling}
-                  onChange={(e) => handleChange("otherFilling", e.target.value)}
-                />
-              )}
-            </div>
-          ))}
-        </div>
-
-        <div className="mb-4">
-          <h2 className="font-semibold mb-2">Photo or Sketch of the Cake <span className="text-gray-500 text-sm">(optional)</span></h2>
-          <Input
-            type="file"
-            accept="image/*"
-            onChange={(e) => handleChange("photo", e.target.files[0])}
-          />
-        </div>
-
-        <div className="mb-4">
-          <h2 className="font-semibold mb-2">Special Requests</h2>
+        
+        <div className="mb-10 animate-slideUp">
+          <h2 className="text-lg font-semibold mb-2 text-gray-700">Special Requests</h2>
           <textarea
-            className="w-full border border-gray-300 rounded p-2"
+            className="w-full border border-gray-300 rounded p-3"
             rows="3"
             placeholder="Write any specific instructions or requests here..."
             value={formData.specialRequest}
@@ -174,12 +117,13 @@ const CustomizeCake = () => {
           ></textarea>
         </div>
 
-        <div className="mb-4 text-center">
-          <h2 className="font-semibold mb-2">Number of Servings</h2>
+        
+        <div className="mb-10 text-center animate-slideUp">
+          <h2 className="text-lg font-semibold mb-4 text-gray-700">Number of Servings</h2>
           {servingsOptions.map((option) => (
             <button
               key={option}
-              className={`px-3 py-1 m-1 rounded-full border border-pink-400 hover:bg-pink-200 transition text-sm ${
+              className={`px-4 py-2 m-2 rounded-full border border-pink-400 hover:bg-pink-200 transition text-sm font-normal ${
                 formData.servings === option ? "bg-pink-300" : ""
               }`}
               onClick={() => handleChange("servings", option)}
@@ -188,16 +132,22 @@ const CustomizeCake = () => {
             </button>
           ))}
           {formData.servings && (
-            <div className="mt-2 text-pink-700 font-medium">
-              Price: {priceMap[formData.servings]}
-            </div>
+            <div className="mt-3 text-pink-700 font-medium">Price: {priceMap[formData.servings]}</div>
           )}
         </div>
 
+        
         <button
-          className="w-full bg-pink-400 hover:bg-pink-500 text-white font-semibold py-2 rounded-lg transition"
+          className={`w-full ${
+            isAdded ? "bg-green-500" : "bg-pink-500 hover:bg-pink-600"
+          } text-white font-semibold py-3 rounded-lg transition`}
           onClick={() => {
             const sponge = formData.sponge === "Other" ? formData.otherSponge : formData.sponge;
+            const shape = formData.shape === "Other" ? formData.otherShape : formData.shape;
+            const icingFlavor =
+              formData.icingFlavors === "Other" ? formData.otherIcingFlavor : formData.icingFlavors;
+            const filling = formData.filling === "Other" ? formData.otherFilling : formData.filling;
+
             const price = Number(priceMap[formData.servings]?.replace("¥", "")) || 0;
             if (!sponge || !formData.servings) return;
 
@@ -207,13 +157,16 @@ const CustomizeCake = () => {
                 price,
                 size: formData.servings,
                 quantity: 1,
-                image: "/images/custom-cake.jpg",
+                image: formData.photo ? URL.createObjectURL(formData.photo) : "/images/custom-cake.jpg",
+                details: { sponge, shape, icing: formData.icing, icingFlavor, filling, specialRequest: formData.specialRequest },
               })
             );
+
+            setIsAdded(true);
           }}
-          disabled={!formData.sponge || !formData.servings}
+          disabled={!formData.sponge || !formData.servings || isAdded}
         >
-          Add to Cart
+          {isAdded ? "Added to Cart" : "Add to Cart"}
         </button>
       </div>
     </div>

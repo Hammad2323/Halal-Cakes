@@ -6,6 +6,9 @@ import PreDesignedCakes from "./pages/PreDesignedCakes";
 import CustomizeCake from "./pages/CustomizeCake";
 import CartPage from "./pages/CartPage";
 import ContactPage from "./pages/ContactPage";
+import CheckoutPage from "./pages/CheckoutPage"; 
+import FeedbackPage from "./pages/FeedbackPage";
+
 
 function App() {
   return (
@@ -17,7 +20,8 @@ function App() {
           <Route path="/customize" element={<CustomizeCake />} />
           <Route path="/cart" element={<CartPage />} />
           <Route path="/contact" element={<ContactPage />} />
-          <Route path="*" element={<div>404 - Page Not Found</div>} />
+          <Route path="/checkout" element={<CheckoutPage />} /> 
+          <Route path="/feedBack" element={<FeedbackPage />} />
         </Routes>
       </div>
     </div>
