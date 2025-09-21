@@ -7,7 +7,7 @@ const Navbar = () => {
 
   return (
     <nav className="w-full bg-gradient-to-r from-pink-200 via-pink-100 to-rose-200 shadow-lg backdrop-blur-md">
-      <div className="max-w-7xl mx-auto px-4 md:px-8 py-3">
+      <div className="max-w-7xl mx-auto px-3 md:px-8 py-3">
         {/* Only show logo on home page */}
         {isHome && (
           <div className="flex justify-center mb-3">
@@ -22,10 +22,11 @@ const Navbar = () => {
         {/* nav links */}
         <ul
           className="
-            flex flex-row justify-between items-center 
-            font-semibold text-pink-800 
-            text-sm md:text-base 
-            gap-x-2 md:gap-x-8
+            flex flex-row flex-wrap justify-between items-center
+            font-semibold text-pink-800
+            text-xs sm:text-sm md:text-base
+            gap-x-2 sm:gap-x-4 md:gap-x-8
+            whitespace-nowrap
           "
         >
           {[
@@ -38,11 +39,10 @@ const Navbar = () => {
             <li key={link.to} className="relative group">
               <Link
                 to={link.to}
-                className="hover:text-pink-600 transition font-bold px-1 md:px-2"
+                className="hover:text-pink-600 transition font-bold px-1 md:px-2 block"
               >
                 {link.text}
               </Link>
-              {/* underline animation */}
               <span className="absolute left-0 -bottom-1 w-0 h-0.5 bg-pink-600 transition-all duration-300 group-hover:w-full"></span>
             </li>
           ))}

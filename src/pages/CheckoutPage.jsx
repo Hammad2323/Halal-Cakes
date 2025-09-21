@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useSelector } from "react-redux"; 
+import { useSelector } from "react-redux";
 import emailjs from "@emailjs/browser";
 import jsPDF from "jspdf";
 
@@ -27,7 +27,7 @@ const CheckoutPage = () => {
     setScreenshot(e.target.files[0]);
   };
 
-  
+  // keep your PDF generator unchanged
   const generateReceipt = () => {
     const doc = new jsPDF();
     doc.setFontSize(18);
@@ -49,7 +49,6 @@ const CheckoutPage = () => {
       y += 10;
     });
 
-   
     doc.text(`Total Price: ¥ ${totalPrice.toLocaleString("ja-JP")}`, 20, y + 10);
 
     doc.save("order-receipt.pdf");
@@ -63,20 +62,33 @@ const CheckoutPage = () => {
       return;
     }
 
+    // Build formatted order details text
+    let orderDetails = `Cake Order Receipt\n\n`;
+    orderDetails += `Customer Name: ${formData.name}\n`;
+    orderDetails += `Address: ${formData.address}\n`;
+    orderDetails += `Contact: ${formData.contact}\n`;
+    orderDetails += `Delivery Option: ${formData.deliveryOption}\n\n`;
+    orderDetails += `Items:\n`;
+
+    cartItems.forEach((item, index) => {
+      orderDetails += `${index + 1}. ${item.name} - Qty: ${
+        item.quantity || 1
+      } - ¥ ${(item.price * (item.quantity || 1)).toLocaleString("ja-JP")}\n`;
+    });
+
+    orderDetails += `\nTotal Price: ¥ ${totalPrice.toLocaleString("ja-JP")}\n`;
+
     const templateParams = {
       customer_name: formData.name,
-      customer_address: formData.address,
-      customer_contact: formData.contact,
-      delivery_option: formData.deliveryOption,
-      total_price: totalPrice,
+      order_details: orderDetails,
     };
 
     emailjs
       .send(
-        "service_xoar0vu",
-        "template_pc6jn6i",
+        "service_xoar0vu", // your EmailJS service ID
+        "template_pc6jn6i", // your EmailJS template ID
         templateParams,
-        "eGLXq860KTfTP6LZB"
+        "eGLXq860KTfTP6LZB" // your EmailJS public key
       )
       .then(
         () => {
@@ -133,7 +145,6 @@ const CheckoutPage = () => {
                 <option value="delivery">Delivery</option>
               </select>
 
-              
               <p className="text-xl font-bold text-orange-700 mt-4">
                 Total: ¥ {totalPrice.toLocaleString("ja-JP")}
               </p>
