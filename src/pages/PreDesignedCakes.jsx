@@ -7,7 +7,11 @@ import { addToCart } from "@/store/cartSlice";
 import { Link } from "react-router-dom";
 import { ShoppingCart } from "lucide-react";
 
+
 const PreDesignedCakes = () => {
+
+  
+
   const dispatch = useDispatch();
   const cartItems = useSelector((state) => state.cart.items);
   const totalItems = cartItems.reduce((sum, i) => sum + i.quantity, 0);
