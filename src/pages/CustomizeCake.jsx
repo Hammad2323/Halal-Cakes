@@ -10,7 +10,6 @@ const CustomizeCake = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  // get cart count from Redux
   const cartCount = useSelector((state) =>
     state.cart.items.reduce((acc, item) => acc + (item.quantity || 1), 0)
   );
@@ -59,12 +58,22 @@ const CustomizeCake = () => {
   };
 
   return (
-    <div className="relative flex justify-center items-center min-h-screen bg-gradient-to-br from-pink-100 via-orange-50 to-pink-200 p-6">
-      
+    <div className="relative min-h-screen flex justify-center items-center">
+      {/* Background Image */}
+      <div className="absolute inset-0">
+        <img
+          src="/customize.jpg"
+          alt="Customize background"
+          className="w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-white/20 backdrop-blur-sm"></div>
+      </div>
+
+      {/* Cart Button */}
       <button
         className="fixed sm:absolute top-4 right-4 flex items-center justify-center gap-2 
-                   bg-pink-500 text-white px-3 sm:px-4 py-2 rounded-full shadow 
-                   hover:bg-pink-600 transition text-sm sm:text-base z-50"
+                   bg-pink-600 text-white px-3 sm:px-4 py-2 rounded-full shadow-lg 
+                   hover:bg-pink-700 transition text-sm sm:text-base z-50"
         onClick={() => navigate("/cart")}
       >
         <div className="relative">
@@ -78,12 +87,13 @@ const CustomizeCake = () => {
         <span className="hidden sm:inline">Cart</span>
       </button>
 
-      
-      <div className="w-full max-w-3xl bg-white/95 p-6 sm:p-10 rounded-2xl shadow-2xl animate-fadeIn">
-        <h1 className="text-3xl font-extrabold mb-8 text-center text-pink-700">
+      {/* Form Card */}
+      <div className="relative w-full max-w-3xl bg-white/90 p-8 sm:p-12 rounded-3xl shadow-2xl z-10 backdrop-blur-md">
+        <h1 className="text-4xl font-extrabold mb-10 text-center text-pink-700 drop-shadow-sm">
           🎂 Customize Your Cake
         </h1>
 
+        {/* Sections */}
         {[
           {
             title: "Choose a Cake Sponge",
@@ -113,31 +123,29 @@ const CustomizeCake = () => {
         ].map((section, index) => (
           <div
             key={section.key}
-            className="mb-10 animate-slideUp"
-            style={{ animationDelay: `${index * 0.1}s` }}
+            className="mb-10"
           >
-            <h2 className="text-lg font-semibold mb-4 text-center text-gray-700">
+            <h2 className="text-xl font-semibold mb-5 text-gray-800 text-center">
               {section.title}
             </h2>
-            <div className="space-y-2">
+            <div className="space-y-3">
               {section.options.map((option) => (
                 <div
                   key={option}
-                  className="flex flex-row items-center justify-center gap-3"
+                  className="flex items-center gap-3 justify-center"
                 >
-                 
-                  <Label className="font-normal text-gray-700">{option}</Label>
                   <input
                     type="checkbox"
-                    className="w-5 h-5 rounded-md border-2 border-pink-400 text-pink-500 focus:ring-pink-400
-                               checked:bg-pink-500 checked:border-pink-500 transition"
+                    className="w-5 h-5 rounded-md border-2 border-pink-400 text-pink-500 
+                               checked:bg-pink-500 checked:border-pink-500 focus:ring-2 focus:ring-pink-300 transition"
                     checked={formData[section.key] === option}
                     onChange={() => handleChange(section.key, option)}
                   />
+                  <Label className="text-gray-700 text-sm sm:text-base">{option}</Label>
                   {option === "Other" &&
                     formData[section.key] === "Other" && (
                       <Input
-                        className="max-w-[200px]"
+                        className="max-w-[200px] text-sm border-pink-300"
                         placeholder={`Enter ${section.key}`}
                         value={formData[section.otherKey]}
                         onChange={(e) =>
@@ -151,62 +159,64 @@ const CustomizeCake = () => {
           </div>
         ))}
 
-        
-        <div className="mb-10 animate-slideUp">
-          <h2 className="text-lg font-semibold mb-2 text-gray-700">
-            Photo or Sketch of the Cake{" "}
-            <span className="text-gray-500 text-sm">(optional)</span>
+        {/* Photo Upload */}
+        <div className="mb-10">
+          <h2 className="text-xl font-semibold mb-3 text-gray-800 text-center">
+            Upload a Photo / Sketch <span className="text-gray-500 text-sm">(optional)</span>
           </h2>
           <Input
             type="file"
             accept="image/*"
             onChange={(e) => handleChange("photo", e.target.files[0])}
+            className="mt-2 border-pink-300"
           />
         </div>
 
-        
-        <div className="mb-10 animate-slideUp">
-          <h2 className="text-lg font-semibold mb-2 text-gray-700">
+        {/* Special Requests */}
+        <div className="mb-10">
+          <h2 className="text-xl font-semibold mb-3 text-gray-800 text-center">
             Special Requests
           </h2>
           <textarea
-            className="w-full border border-gray-300 rounded p-3"
+            className="w-full border border-pink-300 rounded-xl p-4 shadow-sm"
             rows="3"
-            placeholder="Write any specific instructions or requests here..."
+            placeholder="Write any specific instructions..."
             value={formData.specialRequest}
-            onChange={(e) =>
-              handleChange("specialRequest", e.target.value)
-            }
+            onChange={(e) => handleChange("specialRequest", e.target.value)}
           ></textarea>
         </div>
 
-        <div className="mb-10 text-center animate-slideUp">
-          <h2 className="text-lg font-semibold mb-4 text-gray-700">
+        {/* Servings */}
+        <div className="mb-12 text-center">
+          <h2 className="text-xl font-semibold mb-5 text-gray-800">
             Number of Servings
           </h2>
-          {servingsOptions.map((option) => (
-            <button
-              key={option}
-              className={`px-4 py-2 m-2 rounded-full border border-pink-400 hover:bg-pink-200 transition text-sm font-normal ${
-                formData.servings === option ? "bg-pink-300" : ""
-              }`}
-              onClick={() => handleChange("servings", option)}
-            >
-              {option}
-            </button>
-          ))}
+          <div className="flex flex-wrap justify-center gap-3">
+            {servingsOptions.map((option) => (
+              <button
+                key={option}
+                className={`px-5 py-2 rounded-full border border-pink-400 
+                           hover:bg-pink-200 transition text-sm font-medium shadow-sm ${
+                  formData.servings === option ? "bg-pink-400 text-white" : "bg-white"
+                }`}
+                onClick={() => handleChange("servings", option)}
+              >
+                {option}
+              </button>
+            ))}
+          </div>
           {formData.servings && (
-            <div className="mt-3 text-pink-700 font-medium">
+            <div className="mt-4 text-pink-700 font-medium text-lg">
               Price: {priceMap[formData.servings]}
             </div>
           )}
         </div>
 
-      
+        {/* Add to Cart */}
         <button
           className={`w-full ${
-            isAdded ? "bg-green-500" : "bg-pink-500 hover:bg-pink-600"
-          } text-white font-semibold py-3 rounded-lg transition`}
+            isAdded ? "bg-green-500" : "bg-pink-600 hover:bg-pink-700"
+          } text-white font-semibold py-4 rounded-xl shadow-lg transition`}
           onClick={() => {
             const sponge =
               formData.sponge === "Other"
@@ -253,7 +263,7 @@ const CustomizeCake = () => {
           }}
           disabled={!formData.sponge || !formData.servings || isAdded}
         >
-          {isAdded ? "Added to Cart" : "Add to Cart"}
+          {isAdded ? "Added to Cart ✅" : "Add to Cart"}
         </button>
       </div>
     </div>

@@ -74,3 +74,12 @@ a {
 a:hover {
   transform: scale(1.05);
 }
+
+/* 🔹 NEW — Hide horizontal scrollbars but allow scrolling */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none; /* Chrome, Safari */
+}
+.scrollbar-hide {
+  -ms-overflow-style: none; /* IE & Edge */
+  scrollbar-width: none; /* Firefox */
+}

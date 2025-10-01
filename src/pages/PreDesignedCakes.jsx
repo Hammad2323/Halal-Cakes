@@ -7,25 +7,16 @@ import { addToCart } from "@/store/cartSlice";
 import { Link } from "react-router-dom";
 import { ShoppingCart } from "lucide-react";
 
-
 const PreDesignedCakes = () => {
-
-  
-
   const dispatch = useDispatch();
   const cartItems = useSelector((state) => state.cart.items);
   const totalItems = cartItems.reduce((sum, i) => sum + i.quantity, 0);
 
   const [selectedSizes, setSelectedSizes] = useState({});
-  const [selectedCupcakes, setSelectedCupcakes] = useState({});
   const [addedItems, setAddedItems] = useState({});
 
   const handleSizeChange = (cakeName, size) => {
     setSelectedSizes((prev) => ({ ...prev, [cakeName]: size }));
-  };
-
-  const handleCupcakeChange = (cupcakeName, quantity) => {
-    setSelectedCupcakes((prev) => ({ ...prev, [cupcakeName]: quantity }));
   };
 
   const handleAddToCart = (itemKey, item) => {
@@ -42,7 +33,7 @@ const PreDesignedCakes = () => {
 
   return (
     <div className="p-4 sm:p-6 space-y-12 bg-gradient-to-br from-pink-50 via-orange-50 to-pink-100 min-h-screen relative">
-      
+      {/* Floating Cart Button */}
       <Link
         to="/cart"
         className="fixed bottom-4 right-4 z-50 bg-orange-400 hover:bg-orange-500 text-white rounded-full p-4 shadow-lg flex items-center justify-center"
@@ -57,7 +48,7 @@ const PreDesignedCakes = () => {
         </div>
       </Link>
 
-      
+      {/* Desktop Cart Button */}
       <div className="hidden sm:flex justify-end mb-6">
         <Link
           to="/cart"
@@ -68,7 +59,7 @@ const PreDesignedCakes = () => {
         </Link>
       </div>
 
-      
+      {/* Cakes */}
       <section>
         <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-center text-orange-700">
           Cakes
@@ -78,7 +69,9 @@ const PreDesignedCakes = () => {
             <Card key={cake.name} className={cardClass}>
               <img src={cake.image} alt={cake.name} className={imgClass} />
               <CardContent className="space-y-2 sm:space-y-3 py-2 sm:py-4">
-                <h3 className="text-base sm:text-xl font-semibold">{cake.name}</h3>
+                <h3 className="text-base sm:text-xl font-semibold">
+                  {cake.name}
+                </h3>
                 <label className="block text-sm sm:text-base font-normal text-gray-700">
                   Select size
                 </label>
@@ -115,7 +108,7 @@ const PreDesignedCakes = () => {
         </div>
       </section>
 
-     
+      {/* Cupcakes */}
       <section>
         <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-center text-orange-700">
           Cupcakes
@@ -125,33 +118,22 @@ const PreDesignedCakes = () => {
             <Card key={cupcake.name} className={cardClass}>
               <img src={cupcake.image} alt={cupcake.name} className={imgClass} />
               <CardContent className="space-y-2 sm:space-y-3 py-2 sm:py-4">
-                <h3 className="text-base sm:text-xl font-semibold">{cupcake.name}</h3>
-                <label className="block text-sm sm:text-base font-normal text-gray-700">
-                  Select quantity
-                </label>
-                <select
-                  className="w-full p-2 text-sm sm:text-base border rounded"
-                  value={selectedCupcakes[cupcake.name] || ""}
-                  onChange={(e) =>
-                    handleCupcakeChange(cupcake.name, e.target.value)
-                  }
-                >
-                  <option value="">Choose...</option>
-                  <option value="4">4 pieces - ¥800</option>
-                  <option value="6">6 pieces - ¥900</option>
-                </select>
+                <h3 className="text-base sm:text-xl font-semibold">
+                  {cupcake.name}
+                </h3>
+                <p className="text-sm sm:text-base font-normal text-gray-700">
+                  8 pcs - ¥1600
+                </p>
                 <Button
                   className={btnClass}
                   onClick={() =>
                     handleAddToCart(cupcake.name, {
                       name: cupcake.name,
-                      price:
-                        selectedCupcakes[cupcake.name] === "4" ? 800 : 900,
+                      price: 1600,
                       quantity: 1,
                       image: cupcake.image,
                     })
                   }
-                  disabled={!selectedCupcakes[cupcake.name]}
                 >
                   {addedItems[cupcake.name] ? "Added to Cart" : "Add to Cart"}
                 </Button>
@@ -161,7 +143,7 @@ const PreDesignedCakes = () => {
         </div>
       </section>
 
-     
+      {/* Doughnuts */}
       <section>
         <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-center text-orange-700">
           Doughnuts
@@ -171,7 +153,9 @@ const PreDesignedCakes = () => {
             <Card key={item.name} className={cardClass}>
               <img src={item.image} alt={item.name} className={imgClass} />
               <CardContent className="space-y-2 sm:space-y-3 py-2 sm:py-4">
-                <h3 className="text-base sm:text-xl font-semibold">{item.name}</h3>
+                <h3 className="text-base sm:text-xl font-semibold">
+                  {item.name}
+                </h3>
                 <p className="text-sm sm:text-base font-normal text-gray-700">
                   {item.pieces} pcs - ¥{item.price}
                 </p>
@@ -194,7 +178,7 @@ const PreDesignedCakes = () => {
         </div>
       </section>
 
-      
+      {/* Extras */}
       <section>
         <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-center text-orange-700">
           Extras
@@ -204,7 +188,9 @@ const PreDesignedCakes = () => {
             <Card key={item.name} className={cardClass}>
               <img src={item.image} alt={item.name} className={imgClass} />
               <CardContent className="space-y-2 sm:space-y-3 py-2 sm:py-4">
-                <h3 className="text-base sm:text-xl font-semibold">{item.name}</h3>
+                <h3 className="text-base sm:text-xl font-semibold">
+                  {item.name}
+                </h3>
                 <p className="text-sm sm:text-base font-normal text-gray-700">
                   ¥{item.price}
                 </p>

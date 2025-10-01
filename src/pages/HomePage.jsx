@@ -3,8 +3,8 @@ import { Link } from "react-router-dom";
 
 const HomePage = () => {
   return (
-    <div className="relative min-h-screen bg-gradient-to-br from-pink-50 via-rose-50 to-orange-50 font-sans overflow-hidden">
-      {/* background sprinkles */}
+    <div className="relative min-h-screen bg-gradient-to-br from-pink-100 via-rose-50 to-orange-100 font-sans overflow-hidden">
+      {/* sprinkles */}
       <div className="sprinkle"></div>
       <div className="sprinkle"></div>
       <div className="sprinkle"></div>
@@ -12,48 +12,49 @@ const HomePage = () => {
       <div className="sprinkle"></div>
 
       {/* floating shapes */}
-      <div className="absolute top-20 left-10 w-32 h-32 bg-pink-200 rounded-full blur-3xl animate-float"></div>
+      <div className="absolute top-16 left-10 w-32 h-32 bg-pink-200 rounded-full blur-3xl animate-float"></div>
       <div className="absolute bottom-20 right-16 w-40 h-40 bg-orange-200 rounded-full blur-3xl animate-bounce-slow"></div>
       <div className="absolute top-1/3 right-1/3 w-28 h-28 bg-pink-300 rounded-full blur-2xl opacity-70 animate-float-delayed"></div>
 
       {/* HERO */}
-      <div className="relative z-10 bg-gradient-to-r from-pink-200 via-white to-pink-100 text-center py-8 md:py-12 px-4 md:px-6 mt-6 md:mt-10 rounded-3xl shadow-xl border-4 border-black max-w-5xl mx-auto">
-        <h2 className="text-4xl md:text-6xl font-extrabold text-gray-900 mb-4 drop-shadow-md tracking-wide">
-          <span className="text-pink-600">AMIN'S</span> HALAL BAKERY
+      <div className="relative z-10 bg-gradient-to-r from-pink-300 via-white to-pink-200 text-center py-10 md:py-14 px-6 md:px-10 mt-8 md:mt-12 rounded-3xl shadow-2xl border-4 border-pink-500 max-w-5xl mx-auto">
+        <h2 className="text-5xl md:text-7xl font-extrabold text-gray-900 mb-6 drop-shadow-xl tracking-wider">
+          <span className="text-pink-700">AMIN’S</span>{" "}
+          <span className="text-rose-600">HALAL BAKERY</span>
         </h2>
-        <p className="text-base md:text-lg text-gray-900 font-medium max-w-xl mx-auto leading-relaxed">
+        <p className="text-lg md:text-xl text-gray-800 font-medium max-w-2xl mx-auto leading-relaxed drop-shadow-sm">
           Cake is the secret ingredient to every celebration.  
-          We bake with love, serve with joy.
+          We bake with <span className="font-bold text-pink-700">love</span>, serve with <span className="font-bold text-rose-600">joy</span>.
         </p>
       </div>
 
       {/* TWO MAIN CARDS */}
-      <div className="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 px-4 md:px-6 mt-8 md:mt-10 max-w-4xl mx-auto">
+      <div className="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-10 px-6 md:px-10 mt-10 md:mt-14 max-w-5xl mx-auto">
         <Link to="/cakes">
-          <div className="bg-white border-4 border-black p-4 rounded-2xl shadow-lg hover:shadow-2xl transition">
-            <h3 className="text-xl md:text-2xl font-semibold text-center text-pink-700 mb-4">
+          <div className="bg-white border-4 border-pink-400 p-6 rounded-3xl shadow-xl hover:shadow-3xl hover:-translate-y-1 transition-all duration-500">
+            <h3 className="text-2xl md:text-3xl font-bold text-center text-pink-700 mb-5">
               Pre-designed Cakes
             </h3>
-            <div className="w-full h-48 md:h-60 overflow-hidden rounded-xl">
+            <div className="w-full h-52 md:h-64 overflow-hidden rounded-2xl">
               <img
                 src="/pic1.jpg"
                 alt="Pre-designed Cakes"
-                className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+                className="w-full h-full object-cover hover:scale-110 transition-transform duration-500"
               />
             </div>
           </div>
         </Link>
 
         <Link to="/customize">
-          <div className="bg-white border-4 border-black p-4 rounded-2xl shadow-lg hover:shadow-2xl transition">
-            <h3 className="text-xl md:text-2xl font-semibold text-center text-pink-700 mb-4">
+          <div className="bg-white border-4 border-pink-400 p-6 rounded-3xl shadow-xl hover:shadow-3xl hover:-translate-y-1 transition-all duration-500">
+            <h3 className="text-2xl md:text-3xl font-bold text-center text-pink-700 mb-5">
               Customized Cakes
             </h3>
-            <div className="w-full h-48 md:h-60 overflow-hidden rounded-xl">
+            <div className="w-full h-52 md:h-64 overflow-hidden rounded-2xl">
               <img
                 src="/pic2.jpg"
                 alt="Customized Cakes"
-                className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+                className="w-full h-full object-cover hover:scale-110 transition-transform duration-500"
               />
             </div>
           </div>

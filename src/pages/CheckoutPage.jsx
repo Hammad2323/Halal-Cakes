@@ -27,7 +27,7 @@ const CheckoutPage = () => {
     setScreenshot(e.target.files[0]);
   };
 
-  // keep your PDF generator unchanged
+  // Generate PDF Receipt with full details
   const generateReceipt = () => {
     const doc = new jsPDF();
     doc.setFontSize(18);
@@ -47,10 +47,17 @@ const CheckoutPage = () => {
         y
       );
       y += 10;
+
+      // Add extra details if customized
+      if (item.details) {
+        Object.entries(item.details).forEach(([key, value]) => {
+          doc.text(`   • ${key}: ${value}`, 30, y);
+          y += 8;
+        });
+      }
     });
 
     doc.text(`Total Price: ¥ ${totalPrice.toLocaleString("ja-JP")}`, 20, y + 10);
-
     doc.save("order-receipt.pdf");
   };
 
@@ -74,6 +81,13 @@ const CheckoutPage = () => {
       orderDetails += `${index + 1}. ${item.name} - Qty: ${
         item.quantity || 1
       } - ¥ ${(item.price * (item.quantity || 1)).toLocaleString("ja-JP")}\n`;
+
+      // Add details for customized cakes
+      if (item.details) {
+        Object.entries(item.details).forEach(([key, value]) => {
+          orderDetails += `   • ${key}: ${value}\n`;
+        });
+      }
     });
 
     orderDetails += `\nTotal Price: ¥ ${totalPrice.toLocaleString("ja-JP")}\n`;
@@ -85,7 +99,7 @@ const CheckoutPage = () => {
 
     emailjs
       .send(
-        "service_xoar0vu", // your EmailJS service ID
+        "service_ollhd2j", // your EmailJS service ID
         "template_pc6jn6i", // your EmailJS template ID
         templateParams,
         "eGLXq860KTfTP6LZB" // your EmailJS public key
@@ -153,8 +167,9 @@ const CheckoutPage = () => {
                 <p className="font-bold text-pink-700">
                   Pay in the following account:
                 </p>
-                <p>Bank: HBL</p>
-                <p>Account Number: 111112222244444</p>
+                <p>Bank: Jp Bank</p>
+                <p>Account Title: イジャズ　アンサ</p>
+                <p>Account Number: 10460-34947021</p>
               </div>
 
               <div className="mt-4">

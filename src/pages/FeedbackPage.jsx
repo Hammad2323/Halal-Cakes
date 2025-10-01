@@ -40,25 +40,22 @@ const FeedbackPage = () => {
   const [allRatings, setAllRatings] = useState([]);
   const [fiveStarFeedback, setFiveStarFeedback] = useState([]);
 
-
+  // Load from storage
   useEffect(() => {
     try {
       const r = JSON.parse(localStorage.getItem("allRatings") || "[]");
       const f = JSON.parse(localStorage.getItem("fiveStarFeedback") || "[]");
       setAllRatings(r);
       setFiveStarFeedback(f);
-    } catch {
-      
-    }
+    } catch {}
   }, []);
 
   const saveToStorage = (key, data) =>
     localStorage.setItem(key, JSON.stringify(data));
 
-  
   const enforceLimit = (list, key) => {
-    if (list.length >= 50) {
-      const fresh = []; 
+    if (list.length > 50) {
+      const fresh = list.slice(0, 50); // keep only 50
       saveToStorage(key, fresh);
       return fresh;
     }
@@ -72,16 +69,13 @@ const FeedbackPage = () => {
     const id = Date.now();
     const date = new Date().toISOString();
 
-    
-    let nextRatings = [
-      { id, name: name.trim(), rating, date },
-      ...allRatings,
-    ];
+    // save rating
+    let nextRatings = [{ id, name: name.trim(), rating, date }, ...allRatings];
     nextRatings = enforceLimit(nextRatings, "allRatings");
     setAllRatings(nextRatings);
     saveToStorage("allRatings", nextRatings);
 
-    
+    // save text feedback if 5 stars
     if (rating === 5 && text.trim()) {
       let nextFb = [
         {
@@ -98,39 +92,124 @@ const FeedbackPage = () => {
       saveToStorage("fiveStarFeedback", nextFb);
     }
 
-    
+    // reset form
     setName("");
     setRating(0);
     setText("");
   };
 
-  
+  // remove rating
   const removeRating = (id) => {
     const updated = allRatings.filter((r) => r.id !== id);
     setAllRatings(updated);
     saveToStorage("allRatings", updated);
   };
 
-  
+  // remove feedback
   const removeFeedback = (id) => {
     const updated = fiveStarFeedback.filter((f) => f.id !== id);
     setFiveStarFeedback(updated);
     saveToStorage("fiveStarFeedback", updated);
   };
 
+  // ====== Rating breakdown logic =======
+  const totalRatings = allRatings.length;
+  const averageRating =
+    totalRatings > 0
+      ? (
+          allRatings.reduce((acc, r) => acc + r.rating, 0) / totalRatings
+        ).toFixed(1)
+      : 0;
+
+  const starCounts = [1, 2, 3, 4, 5].map(
+    (n) => allRatings.filter((r) => r.rating === n).length
+  );
+
+  const renderStars = (value) => {
+    const val = parseFloat(value);
+    const fullStars = Math.floor(val);
+    const hasHalf = val - fullStars >= 0.5;
+    const stars = [];
+    for (let i = 0; i < fullStars; i++) {
+      stars.push(
+        <Star
+          key={`full-${i}`}
+          className="w-6 h-6 fill-pink-500 stroke-pink-500"
+        />
+      );
+    }
+    if (hasHalf) {
+      stars.push(
+        <Star
+          key="half"
+          className="w-6 h-6 fill-pink-200 stroke-pink-500"
+        />
+      );
+    }
+    while (stars.length < 5) {
+      stars.push(
+        <Star
+          key={`empty-${stars.length}`}
+          className="w-6 h-6 stroke-gray-300"
+        />
+      );
+    }
+    return stars;
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-pink-50 via-rose-50 to-orange-50 px-4 py-10">
-      <div className="max-w-3xl mx-auto bg-white/90 backdrop-blur rounded-2xl shadow-xl p-6 md:p-8">
+      <div className="max-w-4xl mx-auto bg-white/90 backdrop-blur rounded-2xl shadow-xl p-6 md:p-8">
         <h1 className="text-3xl md:text-4xl font-bold text-center text-pink-700">
-          Share Your Feedback
+          Customer Ratings & Feedback
         </h1>
         <p className="text-center text-gray-600 mt-2">
-          Rate your experience from 1 to 5 stars. Written feedback is saved only
-          for 5★ reviews.
+          Rate your experience from 1 to 5 stars.
         </p>
 
-        
-        <form onSubmit={handleSubmit} className="mt-8 space-y-6">
+        {/* Rating breakdown */}
+        <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
+          {/* Left */}
+          <div className="text-center md:text-left">
+            <div className="text-5xl md:text-6xl font-extrabold text-pink-600">
+              {averageRating}
+            </div>
+            <div className="flex justify-center md:justify-start mt-2">
+              {renderStars(averageRating)}
+            </div>
+            <div className="text-gray-500 mt-1 text-sm">
+              {totalRatings} ratings total
+            </div>
+          </div>
+
+          {/* Right */}
+          <div className="space-y-2">
+            {[5, 4, 3, 2, 1].map((star) => {
+              const count = starCounts[star - 1];
+              const percent =
+                totalRatings > 0 ? (count / totalRatings) * 100 : 0;
+              return (
+                <div key={star} className="flex items-center gap-2">
+                  <span className="w-5 text-sm font-medium text-gray-700">
+                    {star}
+                  </span>
+                  <div className="flex-1 h-3 bg-gray-200 rounded-full overflow-hidden">
+                    <div
+                      className="h-full bg-pink-500 rounded-full transition-all"
+                      style={{ width: `${percent}%` }}
+                    ></div>
+                  </div>
+                  <span className="w-8 text-right text-sm text-gray-500">
+                    {count}
+                  </span>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Feedback form */}
+        <form onSubmit={handleSubmit} className="mt-10 space-y-6">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Your name (optional)
@@ -174,10 +253,10 @@ const FeedbackPage = () => {
           </button>
         </form>
 
-        
+        {/* 5-star feedback */}
         <section className="mt-10">
           <h2 className="text-2xl font-bold text-pink-700">
-            Customer Feedback (5★)
+            Customer 5★ Feedback
           </h2>
           {fiveStarFeedback.length === 0 ? (
             <p className="text-gray-600 mt-2">No 5★ written feedback yet.</p>
@@ -212,11 +291,9 @@ const FeedbackPage = () => {
           )}
         </section>
 
-        
+        {/* Recent ratings */}
         <section className="mt-10">
-          <h3 className="text-lg font-semibold text-gray-800">
-            Recent Ratings
-          </h3>
+          <h3 className="text-lg font-semibold text-gray-800">Recent Ratings</h3>
           {allRatings.length === 0 ? (
             <p className="text-gray-600 mt-2">No ratings yet.</p>
           ) : (

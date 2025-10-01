@@ -8,7 +8,7 @@ const Navbar = () => {
   return (
     <nav className="w-full bg-gradient-to-r from-pink-200 via-pink-100 to-rose-200 shadow-lg backdrop-blur-md">
       <div className="max-w-7xl mx-auto px-3 md:px-8 py-3">
-        {/* Only show logo on home page */}
+        {/* Logo on home page */}
         {isHome && (
           <div className="flex justify-center mb-3">
             <img
@@ -22,10 +22,11 @@ const Navbar = () => {
         {/* nav links */}
         <ul
           className="
-            flex flex-row flex-wrap justify-between items-center
+            flex flex-row justify-between items-center
             font-semibold text-pink-800
             text-xs sm:text-sm md:text-base
-            gap-x-2 sm:gap-x-4 md:gap-x-8
+            gap-x-2 sm:gap-x-3 md:gap-x-6
+            overflow-x-auto scrollbar-hide
             whitespace-nowrap
           "
         >
@@ -36,7 +37,7 @@ const Navbar = () => {
             { to: "/cart", text: "Cart" },
             { to: "/feedback", text: "Feedback" },
           ].map((link) => (
-            <li key={link.to} className="relative group">
+            <li key={link.to} className="relative group flex-1 text-center">
               <Link
                 to={link.to}
                 className="hover:text-pink-600 transition font-bold px-1 md:px-2 block"
