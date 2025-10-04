@@ -46,9 +46,24 @@ export const cakes = [
 ];
 
 export const cupcakes = [
-  { name: "Vanilla Cupcake", image: "/cupcakes/vanilla.jpg" },
-  { name: "Chocolate Cupcake", image: "/cupcakes/chocolate.jpg" },
-  { name: "Chocolate Coffee Cupcake", image: "/cupcakes/chococoffee.jpg" },
+  {
+    name: "Vanilla Cupcake",
+    image: "/cupcakes/vanilla.jpg",
+    price: 1600,
+    pieces: 8,
+  },
+  {
+    name: "Chocolate Cupcake",
+    image: "/cupcakes/chocolate.jpg",
+    price: 1600,
+    pieces: 8,
+  },
+  {
+    name: "Chocolate Coffee Cupcake",
+    image: "/cupcakes/chococoffee.jpg",
+    price: 1600,
+    pieces: 8,
+  },
 ];
 
 export const doughnuts = [

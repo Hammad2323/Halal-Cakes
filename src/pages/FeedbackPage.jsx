@@ -25,13 +25,13 @@ const StarRating = ({ value, onChange }) => {
             onMouseEnter={() => setHover(n)}
             onMouseLeave={() => setHover(null)}
             onClick={() => onChange(n)}
-            className="p-1"
+            className="p-1 transition-transform hover:scale-110"
           >
             <Star
-              className={`w-7 h-7 transition-transform ${
+              className={`w-7 h-7 ${
                 active
-                  ? "fill-pink-500 stroke-pink-500 scale-105"
-                  : "stroke-gray-400"
+                  ? "fill-[#C97B50] stroke-[#C97B50] shadow-md"
+                  : "stroke-[#A67C52]"
               }`}
             />
           </button>
@@ -46,7 +46,6 @@ const FeedbackPage = () => {
   const [rating, setRating] = useState(0);
   const [text, setText] = useState("");
   const [reviews, setReviews] = useState([]);
-
 
   useEffect(() => {
     const fetchData = async () => {
@@ -63,7 +62,6 @@ const FeedbackPage = () => {
     fetchData();
   }, []);
 
-  
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!rating) return;
@@ -74,7 +72,7 @@ const FeedbackPage = () => {
       const newReview = {
         name: name.trim() || "Anonymous",
         rating,
-        text: rating === 5 && text.trim() ? text.trim() : "", // ✅ only save text if 5★
+        text: rating === 5 && text.trim() ? text.trim() : "",
         date,
       };
 
@@ -82,7 +80,6 @@ const FeedbackPage = () => {
 
       setReviews((prev) => [{ id: docRef.id, ...newReview }, ...prev]);
 
-      // Reset form
       setName("");
       setRating(0);
       setText("");
@@ -91,7 +88,6 @@ const FeedbackPage = () => {
     }
   };
 
-  
   const totalRatings = reviews.length;
   const averageRating =
     totalRatings > 0
@@ -105,96 +101,89 @@ const FeedbackPage = () => {
   );
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-pink-50 via-rose-50 to-orange-50 px-4 py-10">
-      <div className="max-w-4xl mx-auto bg-white/90 backdrop-blur rounded-2xl shadow-xl p-6 md:p-8">
-        <h1 className="text-3xl md:text-4xl font-bold text-center text-pink-700">
+    <div
+      className="min-h-screen px-4 py-10"
+      style={{
+        background: "linear-gradient(to bottom, #FFF3E0, #FFE6CC, #FFDFC0)",
+        color: "#5C3A21",
+        fontFamily: "'Lora', serif",
+      }}
+    >
+      <div className="max-w-4xl mx-auto bg-[#FFF8F0]/95 backdrop-blur rounded-2xl shadow-xl p-6 md:p-8">
+        <h1
+          className="text-3xl md:text-4xl font-extrabold text-center mb-2"
+          style={{ fontFamily: "'Playfair Display', serif" }}
+        >
           Customer Reviews
         </h1>
-        <p className="text-center text-gray-600 mt-2">
+        <p className="text-center mt-2 text-[#5C3A21]" style={{ fontSize: "1rem" }}>
           Honest reviews from our valued customers.
         </p>
 
-      
         <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
-          
           <div className="text-center md:text-left">
-            <div className="text-5xl md:text-6xl font-extrabold text-pink-600">
+            <div className="text-5xl md:text-6xl font-extrabold text-[#C97B50] shadow-sm">
               {averageRating}
             </div>
-            <div className="flex justify-center md:justify-start mt-2">
+            <div className="flex justify-center md:justify-start mt-2 gap-1">
               {[1, 2, 3, 4, 5].map((n) => (
                 <Star
                   key={n}
-                  className={`w-6 h-6 ${
+                  className={`w-6 h-6 transition-transform ${
                     n <= Math.round(averageRating)
-                      ? "fill-pink-500 stroke-pink-500"
-                      : "stroke-gray-300"
+                      ? "fill-[#C97B50] stroke-[#C97B50] shadow-md"
+                      : "stroke-[#A67C52]"
                   }`}
                 />
               ))}
             </div>
-            <div className="text-gray-500 mt-1 text-sm">
-              {totalRatings} total reviews
-            </div>
+            <div className="mt-1 text-sm font-medium">{totalRatings} total reviews</div>
           </div>
 
-        
           <div className="space-y-2">
             {[5, 4, 3, 2, 1].map((star, i) => {
               const count = starCounts[i];
               const percent = totalRatings ? (count / totalRatings) * 100 : 0;
               return (
                 <div key={star} className="flex items-center gap-2">
-                  <span className="w-5 text-sm font-medium text-gray-700">
-                    {star}
-                  </span>
-                  <div className="flex-1 h-3 bg-gray-200 rounded-full overflow-hidden">
+                  <span className="w-5 text-sm font-medium">{star}</span>
+                  <div className="flex-1 h-3 bg-[#FFE0CC] rounded-full overflow-hidden shadow-inner">
                     <div
-                      className="h-full bg-pink-500 rounded-full"
+                      className="h-full bg-[#C97B50] rounded-full shadow-md"
                       style={{ width: `${percent}%` }}
                     ></div>
                   </div>
-                  <span className="w-8 text-right text-sm text-gray-500">
-                    {count}
-                  </span>
+                  <span className="w-8 text-right text-sm">{count}</span>
                 </div>
               );
             })}
           </div>
         </div>
 
-        
         <form onSubmit={handleSubmit} className="mt-10 space-y-6">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Your name (optional)
-            </label>
+            <label className="block mb-1 font-semibold">Your name (optional)</label>
             <input
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="w-full rounded-xl border border-pink-200 bg-white px-3 py-2 outline-none focus:ring-2 focus:ring-pink-300"
+              className="w-full rounded-xl border border-[#FFDAB3] bg-white px-3 py-2 outline-none focus:ring-2 focus:ring-[#FFD1A1] shadow-sm"
               placeholder="e.g. Aisha"
             />
           </div>
 
           <div className="text-center">
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Your rating
-            </label>
+            <label className="block mb-2 font-semibold">Your rating</label>
             <StarRating value={rating} onChange={setRating} />
           </div>
 
-        
           {rating === 5 && (
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Your feedback (optional)
-              </label>
+              <label className="block mb-1 font-semibold">Your feedback (optional)</label>
               <textarea
                 rows={4}
                 value={text}
                 onChange={(e) => setText(e.target.value)}
-                className="w-full rounded-xl border border-pink-200 bg-white px-3 py-2 outline-none focus:ring-2 focus:ring-pink-300"
+                className="w-full rounded-xl border border-[#FFDAB3] bg-white px-3 py-2 outline-none focus:ring-2 focus:ring-[#FFD1A1] shadow-sm"
                 placeholder="Tell us what you loved…"
               />
             </div>
@@ -202,24 +191,28 @@ const FeedbackPage = () => {
 
           <button
             type="submit"
-            className="w-full rounded-xl bg-pink-500 hover:bg-pink-600 text-white font-semibold py-3 shadow-md transition"
+            className="w-full rounded-xl bg-[#C97B50] hover:bg-[#B36842] text-white font-bold py-3 shadow-lg transition transform hover:scale-105"
             disabled={!rating}
           >
             Submit Review
           </button>
         </form>
 
-        
         <section className="mt-10">
-          <h2 className="text-2xl font-bold text-pink-700">Latest Reviews</h2>
+          <h2
+            className="text-2xl font-bold mb-2"
+            style={{ fontFamily: "'Playfair Display', serif" }}
+          >
+            Latest Reviews
+          </h2>
           {reviews.length === 0 ? (
-            <p className="text-gray-600 mt-2">No reviews yet.</p>
+            <p className="mt-2">No reviews yet.</p>
           ) : (
             <div className="mt-4 space-y-4">
               {reviews.map((r) => (
                 <div
                   key={r.id}
-                  className="rounded-xl border border-pink-100 p-4 shadow-sm bg-white"
+                  className="rounded-xl border border-[#FFDAB3] p-4 shadow-md bg-white"
                 >
                   <div className="flex items-center gap-2 mb-2">
                     {[1, 2, 3, 4, 5].map((n) => (
@@ -227,19 +220,15 @@ const FeedbackPage = () => {
                         key={n}
                         className={`w-4 h-4 ${
                           n <= r.rating
-                            ? "fill-pink-500 stroke-pink-500"
-                            : "stroke-gray-300"
+                            ? "fill-[#C97B50] stroke-[#C97B50] shadow-sm"
+                            : "stroke-[#A67C52]"
                         }`}
                       />
                     ))}
-                    <span className="text-sm text-gray-700">
-                      {r.name || "Anonymous"}
-                    </span>
+                    <span className="text-sm font-medium">{r.name || "Anonymous"}</span>
                   </div>
-                  {r.text && <p className="text-gray-800">{r.text}</p>}
-                  <div className="mt-2 text-xs text-gray-500">
-                    {new Date(r.date).toLocaleDateString()}
-                  </div>
+                  {r.text && <p>{r.text}</p>}
+                  <div className="mt-2 text-xs">{new Date(r.date).toLocaleDateString()}</div>
                 </div>
               ))}
             </div>
