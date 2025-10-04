@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { clearCart } from "../redux/cartSlice"; 
+import { clearCart } from "../redux/cartSlice";
 import emailjs from "@emailjs/browser";
 import jsPDF from "jspdf";
+import bakeryLogo from "../assets/bakery-logo.png"; 
 
 const CheckoutPage = () => {
   const dispatch = useDispatch();
@@ -21,6 +22,8 @@ const CheckoutPage = () => {
   const [screenshot, setScreenshot] = useState(null);
   const [orderPlaced, setOrderPlaced] = useState(false);
 
+  const [orderSnapshot, setOrderSnapshot] = useState(null);
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -29,37 +32,78 @@ const CheckoutPage = () => {
     setScreenshot(e.target.files[0]);
   };
 
-  
   const generateReceipt = () => {
+    if (!orderSnapshot) return;
+
+    const { customer, items, total } = orderSnapshot;
+
     const doc = new jsPDF();
+
+    // Logo
+    doc.addImage(bakeryLogo, "PNG", 85, 10, 40, 40);
+
+    // Title
     doc.setFontSize(18);
-    doc.text("Cake Order Receipt", 20, 20);
+    doc.setFont("helvetica", "bold");
+    doc.text("Amin's Halal Bakery", 105, 60, { align: "center" });
 
+    doc.setFontSize(14);
+    doc.setFont("helvetica", "normal");
+    doc.text("Order Receipt", 105, 70, { align: "center" });
+
+    // Customer Info
     doc.setFontSize(12);
-    doc.text(`Customer Name: ${formData.name}`, 20, 40);
-    doc.text(`Address: ${formData.address}`, 20, 50);
-    doc.text(`Contact: ${formData.contact}`, 20, 60);
-    doc.text(`Delivery Option: ${formData.deliveryOption}`, 20, 70);
+    doc.text(`Customer Name: ${customer.name}`, 20, 90);
+    doc.text(`Address: ${customer.address}`, 20, 100);
+    doc.text(`Contact: ${customer.contact}`, 20, 110);
+    doc.text(`Delivery Option: ${customer.deliveryOption}`, 20, 120);
 
-    let y = 90;
-    cartItems.forEach((item, index) => {
+    doc.setLineWidth(0.5);
+    doc.line(20, 125, 190, 125);
+
+    // Order Items
+    let y = 140;
+    doc.setFontSize(14);
+    doc.setFont("helvetica", "bold");
+    doc.text("Order Details:", 20, y);
+    y += 12;
+
+    doc.setFont("helvetica", "normal");
+    items.forEach((item, index) => {
+      doc.setFontSize(12);
       doc.text(
-        `${index + 1}. ${item.name} - Qty: ${item.quantity || 1} - ¥ ${(item.price * (item.quantity || 1)).toLocaleString("ja-JP")}`,
+        `${index + 1}. ${item.name} (x${item.quantity || 1}) - ¥ ${(item.price * (item.quantity || 1)).toLocaleString("ja-JP")}`,
         20,
         y
       );
-      y += 10;
+      y += 8;
 
-      
       if (item.details) {
         Object.entries(item.details).forEach(([key, value]) => {
-          doc.text(`   • ${key}: ${value}`, 30, y);
-          y += 8;
+          doc.text(`   • ${key}: ${value}`, 25, y);
+          y += 7;
         });
+      }
+
+      y += 3;
+      if (y > 270) {
+        doc.addPage();
+        y = 20;
       }
     });
 
-    doc.text(`Total Price: ¥ ${totalPrice.toLocaleString("ja-JP")}`, 20, y + 10);
+    // Total
+    doc.setFontSize(14);
+    doc.setFont("helvetica", "bold");
+    doc.text(`Total Price: ¥ ${total.toLocaleString("ja-JP")}`, 20, y + 10);
+
+    // Footer
+    doc.setFontSize(10);
+    doc.setFont("helvetica", "italic");
+    doc.text("Thank you for ordering with Amin's Halal Bakery!", 105, y + 30, {
+      align: "center",
+    });
+
     doc.save("order-receipt.pdf");
   };
 
@@ -71,7 +115,14 @@ const CheckoutPage = () => {
       return;
     }
 
-    
+    const snapshot = {
+      customer: { ...formData },
+      items: [...cartItems],
+      total: totalPrice,
+    };
+    setOrderSnapshot(snapshot);
+
+    // Email text
     let orderDetails = `Cake Order Receipt\n\n`;
     orderDetails += `Customer Name: ${formData.name}\n`;
     orderDetails += `Address: ${formData.address}\n`;
@@ -84,7 +135,6 @@ const CheckoutPage = () => {
         item.quantity || 1
       } - ¥ ${(item.price * (item.quantity || 1)).toLocaleString("ja-JP")}\n`;
 
-      
       if (item.details) {
         Object.entries(item.details).forEach(([key, value]) => {
           orderDetails += `   • ${key}: ${value}\n`;
@@ -101,15 +151,15 @@ const CheckoutPage = () => {
 
     emailjs
       .send(
-        "service_ollhd2j", 
+        "service_ollhd2j",
         "template_pc6jn6i",
         templateParams,
-        "eGLXq860KTfTP6LZB" 
+        "eGLXq860KTfTP6LZB"
       )
       .then(
         () => {
           setOrderPlaced(true);
-          dispatch(clearCart()); 
+          dispatch(clearCart());
         },
         (error) => {
           console.error("FAILED...", error);
