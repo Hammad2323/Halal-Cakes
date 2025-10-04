@@ -59,7 +59,7 @@ const CustomizeCake = () => {
 
   return (
     <div className="relative min-h-screen flex justify-center items-center">
-      {/* Background Image */}
+      
       <div className="absolute inset-0">
         <img
           src="/customize.jpg"
@@ -69,7 +69,7 @@ const CustomizeCake = () => {
         <div className="absolute inset-0 bg-white/20 backdrop-blur-sm"></div>
       </div>
 
-      {/* Cart Button */}
+    
       <button
         className="fixed sm:absolute top-4 right-4 flex items-center justify-center gap-2 
                    bg-pink-600 text-white px-3 sm:px-4 py-2 rounded-full shadow-lg 
@@ -87,13 +87,13 @@ const CustomizeCake = () => {
         <span className="hidden sm:inline">Cart</span>
       </button>
 
-      {/* Form Card */}
+      
       <div className="relative w-full max-w-3xl bg-white/90 p-8 sm:p-12 rounded-3xl shadow-2xl z-10 backdrop-blur-md">
         <h1 className="text-4xl font-extrabold mb-10 text-center text-pink-700 drop-shadow-sm">
           🎂 Customize Your Cake
         </h1>
 
-        {/* Sections */}
+        
         {[
           {
             title: "Choose a Cake Sponge",
@@ -159,7 +159,7 @@ const CustomizeCake = () => {
           </div>
         ))}
 
-        {/* Photo Upload */}
+        
         <div className="mb-10">
           <h2 className="text-xl font-semibold mb-3 text-gray-800 text-center">
             Upload a Photo / Sketch <span className="text-gray-500 text-sm">(optional)</span>
@@ -172,7 +172,7 @@ const CustomizeCake = () => {
           />
         </div>
 
-        {/* Special Requests */}
+        
         <div className="mb-10">
           <h2 className="text-xl font-semibold mb-3 text-gray-800 text-center">
             Special Requests
@@ -186,7 +186,7 @@ const CustomizeCake = () => {
           ></textarea>
         </div>
 
-        {/* Servings */}
+      
         <div className="mb-12 text-center">
           <h2 className="text-xl font-semibold mb-5 text-gray-800">
             Number of Servings
@@ -212,7 +212,7 @@ const CustomizeCake = () => {
           )}
         </div>
 
-        {/* Add to Cart */}
+        
         <button
           className={`w-full ${
             isAdded ? "bg-green-500" : "bg-pink-600 hover:bg-pink-700"

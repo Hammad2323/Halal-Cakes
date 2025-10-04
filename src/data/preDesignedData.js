@@ -1,5 +1,3 @@
-// src/data/preDesignedData.js
-
 export const cakes = [
   {
     name: "Chocolate Cake",

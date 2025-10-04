@@ -1,9 +1,11 @@
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { clearCart } from "../redux/cartSlice"; 
 import emailjs from "@emailjs/browser";
 import jsPDF from "jspdf";
 
 const CheckoutPage = () => {
+  const dispatch = useDispatch();
   const cartItems = useSelector((state) => state.cart.items);
   const totalPrice = cartItems.reduce(
     (acc, item) => acc + item.price * (item.quantity || 1),
@@ -27,7 +29,7 @@ const CheckoutPage = () => {
     setScreenshot(e.target.files[0]);
   };
 
-  // Generate PDF Receipt with full details
+  
   const generateReceipt = () => {
     const doc = new jsPDF();
     doc.setFontSize(18);
@@ -48,7 +50,7 @@ const CheckoutPage = () => {
       );
       y += 10;
 
-      // Add extra details if customized
+      
       if (item.details) {
         Object.entries(item.details).forEach(([key, value]) => {
           doc.text(`   • ${key}: ${value}`, 30, y);
@@ -69,7 +71,7 @@ const CheckoutPage = () => {
       return;
     }
 
-    // Build formatted order details text
+    
     let orderDetails = `Cake Order Receipt\n\n`;
     orderDetails += `Customer Name: ${formData.name}\n`;
     orderDetails += `Address: ${formData.address}\n`;
@@ -82,7 +84,7 @@ const CheckoutPage = () => {
         item.quantity || 1
       } - ¥ ${(item.price * (item.quantity || 1)).toLocaleString("ja-JP")}\n`;
 
-      // Add details for customized cakes
+      
       if (item.details) {
         Object.entries(item.details).forEach(([key, value]) => {
           orderDetails += `   • ${key}: ${value}\n`;
@@ -99,14 +101,15 @@ const CheckoutPage = () => {
 
     emailjs
       .send(
-        "service_ollhd2j", // your EmailJS service ID
-        "template_pc6jn6i", // your EmailJS template ID
+        "service_ollhd2j", 
+        "template_pc6jn6i",
         templateParams,
-        "eGLXq860KTfTP6LZB" // your EmailJS public key
+        "eGLXq860KTfTP6LZB" 
       )
       .then(
         () => {
           setOrderPlaced(true);
+          dispatch(clearCart()); 
         },
         (error) => {
           console.error("FAILED...", error);

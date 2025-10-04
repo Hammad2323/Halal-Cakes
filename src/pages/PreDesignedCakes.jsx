@@ -33,7 +33,7 @@ const PreDesignedCakes = () => {
 
   return (
     <div className="p-4 sm:p-6 space-y-12 bg-gradient-to-br from-pink-50 via-orange-50 to-pink-100 min-h-screen relative">
-      {/* Floating Cart Button */}
+      
       <Link
         to="/cart"
         className="fixed bottom-4 right-4 z-50 bg-orange-400 hover:bg-orange-500 text-white rounded-full p-4 shadow-lg flex items-center justify-center"
@@ -48,7 +48,7 @@ const PreDesignedCakes = () => {
         </div>
       </Link>
 
-      {/* Desktop Cart Button */}
+      
       <div className="hidden sm:flex justify-end mb-6">
         <Link
           to="/cart"
@@ -59,7 +59,7 @@ const PreDesignedCakes = () => {
         </Link>
       </div>
 
-      {/* Cakes */}
+      
       <section>
         <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-center text-orange-700">
           Cakes
@@ -108,7 +108,7 @@ const PreDesignedCakes = () => {
         </div>
       </section>
 
-      {/* Cupcakes */}
+      
       <section>
         <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-center text-orange-700">
           Cupcakes
@@ -143,7 +143,7 @@ const PreDesignedCakes = () => {
         </div>
       </section>
 
-      {/* Doughnuts */}
+      
       <section>
         <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-center text-orange-700">
           Doughnuts
@@ -178,7 +178,7 @@ const PreDesignedCakes = () => {
         </div>
       </section>
 
-      {/* Extras */}
+    
       <section>
         <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-center text-orange-700">
           Extras

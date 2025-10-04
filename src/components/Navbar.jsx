@@ -3,12 +3,12 @@ import { Link, useLocation } from "react-router-dom";
 
 const Navbar = () => {
   const location = useLocation();
-  const isHome = location.pathname === "/"; // detect home page
+  const isHome = location.pathname === "/"; 
 
   return (
     <nav className="w-full bg-gradient-to-r from-pink-200 via-pink-100 to-rose-200 shadow-lg backdrop-blur-md">
       <div className="max-w-7xl mx-auto px-3 md:px-8 py-3">
-        {/* Logo on home page */}
+        
         {isHome && (
           <div className="flex justify-center mb-3">
             <img
@@ -19,7 +19,7 @@ const Navbar = () => {
           </div>
         )}
 
-        {/* nav links */}
+        
         <ul
           className="
             flex flex-row justify-between items-center
