@@ -1,4 +1,4 @@
-import React, { useState } from "react"; 
+import React, { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useDispatch, useSelector } from "react-redux";
@@ -51,14 +51,14 @@ const CustomizeCake = () => {
   };
 
   return (
-    <div className="relative min-h-screen flex justify-center items-start bg-gradient-to-b from-[#FDF0E0] to-[#FCE5C0] pb-16 px-4 sm:px-6">
-  
+    <div className="relative min-h-screen flex justify-center items-start bg-gradient-to-b from-[#FDF0E0] to-[#FCE5C0] pb-16 px-4 sm:px-6 font-['Poppins']">
+     
       <div className="absolute inset-0">
         <img src="/customize.jpg" alt="Customize background" className="w-full h-full object-cover opacity-25" />
         <div className="absolute inset-0 bg-[#FDF0E0]/60 backdrop-blur-sm"></div>
       </div>
 
-      
+    
       <button
         className="fixed sm:absolute top-6 right-6 flex items-center gap-2 bg-[#A6693A] text-[#FFF8F0] px-4 py-2 rounded-full shadow-lg hover:bg-[#8C532F] transition text-base z-50"
         onClick={() => navigate("/cart")}
@@ -74,63 +74,61 @@ const CustomizeCake = () => {
         <span className="hidden sm:inline">Cart</span>
       </button>
 
-      
-      <div className="relative w-full max-w-4xl bg-[#FFF8F0]/95 p-6 sm:p-10 rounded-3xl shadow-2xl z-10 backdrop-blur-md text-[#7A4F2B]">
+    
+      <div className="relative w-full max-w-2xl bg-[#FFF8F0]/95 p-6 sm:p-10 rounded-3xl shadow-2xl z-10 backdrop-blur-md text-[#7A4F2B]">
         <h1 className="text-3xl sm:text-5xl font-extrabold mb-8 sm:mb-12 text-center drop-shadow-md">
           🎂 Customize Your Cake
         </h1>
 
+       
         {[
-          { title: "Choose a Cake Sponge", options: spongeOptions, key: "sponge", otherKey: "otherSponge" },
-          { title: "Shape", options: shapeOptions, key: "shape", otherKey: "otherShape" },
-          { title: "Choose the Icing", options: icingOptions, key: "icing" },
-          { title: "Choose Icing Flavor", options: icingFlavorOptions, key: "icingFlavors", otherKey: "otherIcingFlavor" },
-          { title: "Choose the Filling", options: fillingOptions, key: "filling", otherKey: "otherFilling" },
-        ].map((section) => (
-          <div key={section.key} className="mb-8 sm:mb-10">
-            <h2 className="text-xl sm:text-2xl font-semibold mb-4 sm:mb-6 text-center">{section.title}</h2>
-            <div className="flex flex-wrap justify-center gap-3 sm:gap-4">
-              {section.options.map((option) => (
-                <div key={option} className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-3">
-                  <input
-                    type="checkbox"
-                    className="w-5 h-5 rounded-md border-2 border-[#A6693A] text-[#A6693A]
-                               checked:bg-[#A6693A] checked:border-[#A6693A] focus:ring-2 focus:ring-[#D9B38C] transition"
-                    checked={formData[section.key] === option}
-                    onChange={() => handleChange(section.key, option)}
-                  />
-                  <Label className="text-sm sm:text-base">{option}</Label>
-                  {option === "Other" && formData[section.key] === "Other" && (
-                    <Input
-                      className="w-full sm:max-w-[220px] text-sm border-[#D9B38C] rounded-md shadow-sm"
-                      placeholder={`Enter ${section.key}`}
-                      value={formData[section.otherKey]}
-                      onChange={(e) => handleChange(section.otherKey, e.target.value)}
-                    />
-                  )}
-                </div>
+          { label: "Cake Sponge", key: "sponge", options: spongeOptions, otherKey: "otherSponge" },
+          { label: "Shape", key: "shape", options: shapeOptions, otherKey: "otherShape" },
+          { label: "Icing Type", key: "icing", options: icingOptions },
+          { label: "Icing Flavor", key: "icingFlavors", options: icingFlavorOptions, otherKey: "otherIcingFlavor" },
+          { label: "Filling", key: "filling", options: fillingOptions, otherKey: "otherFilling" },
+        ].map((field) => (
+          <div key={field.key} className="mb-6 sm:mb-8">
+            <Label className="block text-lg font-semibold mb-3 text-[#7A4F2B]">{field.label}</Label>
+            <select
+              value={formData[field.key]}
+              onChange={(e) => handleChange(field.key, e.target.value)}
+              className="w-full p-3 border-2 border-[#D9B38C] rounded-xl shadow-sm bg-[#FFF8F0] focus:ring-2 focus:ring-[#A6693A] text-[#7A4F2B] text-base sm:text-lg"
+            >
+              <option value="">Select {field.label}</option>
+              {field.options.map((option) => (
+                <option key={option} value={option}>{option}</option>
               ))}
-            </div>
+            </select>
+            {formData[field.key] === "Other" && field.otherKey && (
+              <Input
+                className="mt-3 w-full text-sm border-[#D9B38C] rounded-xl shadow-sm"
+                placeholder={`Enter ${field.label}`}
+                value={formData[field.otherKey]}
+                onChange={(e) => handleChange(field.otherKey, e.target.value)}
+              />
+            )}
           </div>
         ))}
 
        
         <div className="mb-8 sm:mb-10 text-center">
-          <h2 className="text-xl sm:text-2xl font-semibold mb-2">
+          <h2 className="text-xl sm:text-2xl font-semibold mb-3">
             Upload a Photo / Sketch <span className="text-[#D9B38C] text-sm">(optional)</span>
           </h2>
           <Input
             type="file"
             accept="image/*"
             onChange={(e) => handleChange("photo", e.target.files[0])}
-            className="mt-2 w-full sm:w-auto border-[#D9B38C] rounded-lg shadow-sm"
+            className="w-full border-2 border-[#D9B38C] rounded-xl shadow-sm bg-[#FFF8F0]"
           />
         </div>
 
+      
         <div className="mb-8 sm:mb-10">
-          <h2 className="text-xl sm:text-2xl font-semibold mb-2 text-center">Special Requests</h2>
+          <h2 className="text-xl sm:text-2xl font-semibold mb-3 text-center">Special Requests</h2>
           <textarea
-            className="w-full border border-[#D9B38C] rounded-2xl p-3 sm:p-4 shadow-md focus:ring-2 focus:ring-[#F4D6B0] transition resize-none"
+            className="w-full border-2 border-[#D9B38C] rounded-2xl p-3 sm:p-4 shadow-md focus:ring-2 focus:ring-[#F4D6B0] transition resize-none bg-[#FFF8F0]"
             rows="3"
             placeholder="Write any specific instructions..."
             value={formData.specialRequest}
@@ -138,7 +136,7 @@ const CustomizeCake = () => {
           ></textarea>
         </div>
 
-      
+       
         <div className="mb-8 sm:mb-12 text-center">
           <h2 className="text-xl sm:text-2xl font-semibold mb-4">Number of Servings</h2>
           <div className="flex flex-wrap justify-center gap-3 sm:gap-4">
@@ -161,7 +159,7 @@ const CustomizeCake = () => {
           )}
         </div>
 
-     
+      
         <button
           className={`w-full ${isAdded ? "bg-green-500" : "bg-[#A6693A] hover:bg-[#8C532F]"} 
                      text-[#FFF8F0] font-semibold py-3 sm:py-4 rounded-2xl shadow-lg transition text-lg`}
