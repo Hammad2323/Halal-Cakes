@@ -5,8 +5,6 @@ import emailjs from "@emailjs/browser";
 import jsPDF from "jspdf";
 import bakeryLogo from "../assets/bakery-logo.png"; 
 
-// Import fonts in your index.css or App.css:
-// @import url('https://fonts.googleapis.com/css2?family=Lora:wght@400;700&family=Playfair+Display:wght@600;700&display=swap');
 
 const CheckoutPage = () => {
   const dispatch = useDispatch();

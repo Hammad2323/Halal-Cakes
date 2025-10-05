@@ -32,7 +32,7 @@ const PreDesignedCakes = () => {
     }`;
 
   const imgClass =
-    "w-28 h-28 sm:w-40 sm:h-40 object-cover rounded-lg mx-auto hover:scale-110 transition-transform duration-500 shadow-md";
+    "w-28 h-28 sm:w-36 sm:h-36 md:w-40 md:h-40 object-cover rounded-lg mx-auto hover:scale-110 transition-transform duration-500 shadow-md";
 
   const cardClass =
     "bg-gradient-to-br from-[#FFF1E0] via-[#FFE6D5] to-[#FFF3DB] text-[#5C3A21] text-center p-4 sm:p-6 shadow-2xl rounded-xl border border-[#FFDAB3] hover:shadow-3xl hover:-translate-y-2 transition-all duration-500";
@@ -40,7 +40,7 @@ const PreDesignedCakes = () => {
   return (
     <div className="p-4 sm:p-6 space-y-12 bg-gradient-to-br from-[#FFF1E0] via-[#FFE6D5] to-[#FFF3DB] min-h-screen relative font-[PlayfairDisplay] text-[#5C3A21]">
 
-      {/* Floating Cart Button */}
+     
       <Link
         to="/cart"
         className="fixed bottom-4 right-4 z-50 bg-gradient-to-r from-[#A06338] via-[#5C3A21] to-[#B47C3B] text-white rounded-full p-4 shadow-xl flex items-center justify-center hover:scale-110 transition-transform duration-300"
@@ -55,17 +55,17 @@ const PreDesignedCakes = () => {
         </div>
       </Link>
 
-      {/* Cakes Section */}
+    
       <section>
         <h2 className="text-3xl sm:text-4xl font-extrabold mb-8 text-center bg-gradient-to-r from-[#A06338] via-[#5C3A21] to-[#B47C3B] bg-clip-text text-transparent drop-shadow-lg">
           Cakes
         </h2>
-        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8">
+        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 md:gap-8">
           {cakes.map((cake) => (
             <Card key={cake.name} className={cardClass}>
               <img src={cake.image} alt={cake.name} className={imgClass} />
               <CardContent className="space-y-2 sm:space-y-3 py-2 sm:py-4">
-                <h3 className="text-base sm:text-xl font-semibold">{cake.name}</h3>
+                <h3 className="text-base sm:text-lg md:text-xl font-semibold">{cake.name}</h3>
                 <label className="block text-sm sm:text-base font-normal text-[#5C3A21]">
                   Select size
                 </label>
@@ -102,17 +102,17 @@ const PreDesignedCakes = () => {
         </div>
       </section>
 
-      {/* Cupcakes Section */}
+      
       <section>
         <h2 className="text-3xl sm:text-4xl font-extrabold mb-8 text-center bg-gradient-to-r from-[#A06338] via-[#5C3A21] to-[#B47C3B] bg-clip-text text-transparent drop-shadow-lg">
           Cupcakes
         </h2>
-        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
+        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 md:gap-8">
           {cupcakes.map((cupcake) => (
             <Card key={cupcake.name} className={cardClass}>
               <img src={cupcake.image} alt={cupcake.name} className={imgClass} />
               <CardContent className="space-y-2 sm:space-y-3 py-2 sm:py-4">
-                <h3 className="text-base sm:text-xl font-semibold">{cupcake.name}</h3>
+                <h3 className="text-base sm:text-lg md:text-xl font-semibold">{cupcake.name}</h3>
                 <p className="text-sm sm:text-base font-normal text-[#5C3A21]">
                   8 pcs - ¥{cupcake.price}
                 </p>
@@ -135,17 +135,16 @@ const PreDesignedCakes = () => {
         </div>
       </section>
 
-      {/* Doughnuts Section */}
       <section>
         <h2 className="text-3xl sm:text-4xl font-extrabold mb-8 text-center bg-gradient-to-r from-[#A06338] via-[#5C3A21] to-[#B47C3B] bg-clip-text text-transparent drop-shadow-lg">
           Doughnuts
         </h2>
-        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
+        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 md:gap-8">
           {doughnuts.map((item) => (
             <Card key={item.name} className={cardClass}>
               <img src={item.image} alt={item.name} className={imgClass} />
               <CardContent className="space-y-2 sm:space-y-3 py-2 sm:py-4">
-                <h3 className="text-base sm:text-xl font-semibold">{item.name}</h3>
+                <h3 className="text-base sm:text-lg md:text-xl font-semibold">{item.name}</h3>
                 <p className="text-sm sm:text-base font-normal text-[#5C3A21]">
                   {item.pieces} pcs - ¥{item.price}
                 </p>
@@ -168,17 +167,17 @@ const PreDesignedCakes = () => {
         </div>
       </section>
 
-      {/* Extras Section */}
+    
       <section>
         <h2 className="text-3xl sm:text-4xl font-extrabold mb-8 text-center bg-gradient-to-r from-[#A06338] via-[#5C3A21] to-[#B47C3B] bg-clip-text text-transparent drop-shadow-lg">
           Extras
         </h2>
-        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8">
+        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 md:gap-8">
           {extras.map((item) => (
             <Card key={item.name} className={cardClass}>
               <img src={item.image} alt={item.name} className={imgClass} />
               <CardContent className="space-y-2 sm:space-y-3 py-2 sm:py-4">
-                <h3 className="text-base sm:text-xl font-semibold">{item.name}</h3>
+                <h3 className="text-base sm:text-lg md:text-xl font-semibold">{item.name}</h3>
                 <p className="text-sm sm:text-base font-normal text-[#5C3A21]">
                   ¥{item.price}
                 </p>

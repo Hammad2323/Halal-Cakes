@@ -20,7 +20,7 @@ const CartPage = () => {
 
   return (
     <div
-      className="min-h-screen px-2 sm:px-4 py-6 sm:py-10 bg-gradient-to-br from-[#FFF3E0] via-[#FFE6CC] to-[#FFDFC0]"
+      className="min-h-screen px-4 sm:px-6 py-6 bg-gradient-to-br from-[#FFF3E0] via-[#FFE6CC] to-[#FFDFC0]"
       style={{ fontFamily: "'Lora', serif", color: "#5C3A21" }}
     >
       <div className="max-w-4xl mx-auto bg-[#FFF8F0]/95 p-4 sm:p-6 rounded-2xl shadow-xl">
@@ -32,21 +32,23 @@ const CartPage = () => {
         </h1>
 
         {cartItems.length === 0 ? (
-          <p className="text-center text-[#5C3A21]">Your cart is empty.</p>
+          <p className="text-center text-[#5C3A21] text-lg sm:text-xl">Your cart is empty.</p>
         ) : (
           <div className="space-y-6">
             {cartItems.map((item, index) => (
               <div
                 key={item.id || index}
-                className="flex flex-col md:flex-row md:items-center md:justify-between bg-[#FFF8F0] p-3 sm:p-4 rounded-xl shadow-md"
+                className="flex flex-col sm:flex-row items-center sm:items-start justify-between bg-[#FFF8F0] p-3 sm:p-4 rounded-xl shadow-md gap-3"
               >
-                <div className="flex items-start gap-3 sm:gap-4 w-full md:w-1/2">
-                  <img
-                    src={item.image}
-                    alt={item.name}
-                    className="w-16 h-16 sm:w-20 sm:h-20 object-cover rounded-lg"
-                  />
-                  <div className="text-sm sm:text-base">
+                <img
+                  src={item.image}
+                  alt={item.name}
+                  className="w-24 h-24 sm:w-28 sm:h-28 object-cover rounded-lg cursor-pointer"
+                  onClick={() => setZoomImage(item.image || item.photo)}
+                />
+
+                <div className="flex-1 flex flex-col justify-between w-full sm:ml-4">
+                  <div>
                     <h2
                       className="text-base sm:text-lg font-semibold"
                       style={{ fontFamily: "'Playfair Display', serif" }}
@@ -74,7 +76,7 @@ const CartPage = () => {
                         <img
                           src={item.photo}
                           alt="Cake Sketch"
-                          className="w-12 h-12 sm:w-16 sm:h-16 object-cover rounded cursor-pointer border"
+                          className="w-16 h-16 sm:w-20 sm:h-20 object-cover rounded cursor-pointer border"
                           onClick={() => setZoomImage(item.photo)}
                         />
                       </div>
@@ -85,46 +87,42 @@ const CartPage = () => {
                         <p className="text-xs sm:text-sm italic">{item.specialRequest}</p>
                       </div>
                     )}
-
-                    <div className="mt-1 block md:hidden font-semibold">
-                      ¥{(item.price * (item.quantity || 1)).toLocaleString()}
-                    </div>
                   </div>
-                </div>
 
-                <div className="flex items-center gap-2 mt-3 md:mt-0">
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    className="p-2 sm:p-3"
-                    onClick={() => dispatch(decrementQty(item.id))}
-                  >
-                    <Minus className="h-4 w-4 sm:h-5 sm:w-5" />
-                  </Button>
+                  <div className="flex flex-wrap sm:flex-nowrap items-center justify-between mt-3 gap-2">
+                    <div className="flex items-center gap-2">
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="p-2 sm:p-3"
+                        onClick={() => dispatch(decrementQty(item.id))}
+                      >
+                        <Minus className="h-4 w-4 sm:h-5 sm:w-5" />
+                      </Button>
+                      <span className="font-medium text-sm sm:text-base">{item.quantity || 1}</span>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="p-2 sm:p-3"
+                        onClick={() => dispatch(incrementQty(item.id))}
+                      >
+                        <Plus className="h-4 w-4 sm:h-5 sm:w-5" />
+                      </Button>
+                    </div>
 
-                  <span className="font-medium text-sm sm:text-base">{item.quantity || 1}</span>
+                    <p className="font-semibold text-sm sm:text-base">
+                      ¥{(item.price * (item.quantity || 1)).toLocaleString()}
+                    </p>
 
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    className="p-2 sm:p-3"
-                    onClick={() => dispatch(incrementQty(item.id))}
-                  >
-                    <Plus className="h-4 w-4 sm:h-5 sm:w-5" />
-                  </Button>
-
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    className="p-2 sm:p-3"
-                    onClick={() => dispatch(removeFromCart(item.id))}
-                  >
-                    <Trash2 className="h-4 w-4 sm:h-5 sm:w-5 text-red-600" />
-                  </Button>
-                </div>
-
-                <div className="hidden md:block text-right font-semibold">
-                  ¥{(item.price * (item.quantity || 1)).toLocaleString()}
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="p-2 sm:p-3 text-red-600"
+                      onClick={() => dispatch(removeFromCart(item.id))}
+                    >
+                      <Trash2 className="h-4 w-4 sm:h-5 sm:w-5" />
+                    </Button>
+                  </div>
                 </div>
               </div>
             ))}
