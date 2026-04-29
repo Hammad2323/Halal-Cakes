@@ -89,11 +89,11 @@ const Navbar = () => {
             </div>
 
             <div className="leading-tight">
-         <h1 className="text-[20px] md:text-3xl font-light tracking-[0.18em] text-[#2A1818] font-[Cinzel] text-center md:text-left leading-tight">
+         <h1 className="text-[15px] md:text-3xl font-light tracking-[0.18em] text-[#2A1818] font-[Cinzel] text-center md:text-left leading-tight">
   AMIN HALAL BAKERY
 </h1>
 
-<p className="md:hidden mt-0.5 text-[9px] tracking-[0.45em] uppercase text-[#5A2A2A]/50 font-normal text-center">
+<p className="md:hidden mt-0.5 text-[7px] tracking-[0.45em] uppercase text-[#5A2A2A]/50 font-normal text-center">
   Fresh · Sweet · Delicious
 </p>
 
