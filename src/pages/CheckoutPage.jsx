@@ -5,7 +5,6 @@ import emailjs from "@emailjs/browser";
 import jsPDF from "jspdf";
 import bakeryLogo from "../assets/bakery-logo.png"; 
 
-
 const CheckoutPage = () => {
   const dispatch = useDispatch();
   const cartItems = useSelector((state) => state.cart.items);
@@ -128,7 +127,10 @@ const CheckoutPage = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-[#FFF3E0] via-[#FFE6CC] to-[#FFDFC0] px-4" style={{ fontFamily: "'Lora', serif" }}>
+    <div
+      className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-[#FFE4E1] via-[#FFD6D1] to-[#FFF1EE] px-4"
+      style={{ fontFamily: "'Lora', serif" }}
+    >
       <div className="bg-[#FFF8F0]/95 p-10 rounded-3xl shadow-lg w-full max-w-lg text-center text-[#5C3A21]">
         {!orderPlaced ? (
           <>
@@ -164,8 +166,10 @@ const CheckoutPage = () => {
                 <input type="file" accept="image/*" onChange={handleFileChange} className="w-full mt-2" required />
               </div>
 
-              <button type="submit"
-                className="w-full mt-6 bg-[#A6693A] hover:bg-[#8C532F] text-[#FFF8F0] font-bold py-3 px-4 rounded-xl text-lg">
+              <button
+                type="submit"
+                className="w-full mt-6 bg-gradient-to-r from-[#FFB199] via-[#FF8A7A] to-[#FF6F61] hover:opacity-90 text-white font-bold py-3 px-4 rounded-xl text-lg"
+              >
                 Place the Order
               </button>
             </form>
@@ -178,8 +182,10 @@ const CheckoutPage = () => {
             <p className="mb-6 text-[#5C3A21] text-lg">
               Thank you for your order. A confirmation email has been sent.
             </p>
-            <button onClick={generateReceipt}
-              className="bg-[#A6693A] hover:bg-[#8C532F] text-[#FFF8F0] px-6 py-3 rounded-xl text-lg font-semibold">
+            <button
+              onClick={generateReceipt}
+              className="bg-gradient-to-r from-[#FFB199] via-[#FF8A7A] to-[#FF6F61] text-white px-6 py-3 rounded-xl text-lg font-semibold"
+            >
               📄 Download Receipt
             </button>
           </div>

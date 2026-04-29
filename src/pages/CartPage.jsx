@@ -20,7 +20,7 @@ const CartPage = () => {
 
   return (
     <div
-      className="min-h-screen px-4 sm:px-6 py-6 bg-gradient-to-br from-[#FFF3E0] via-[#FFE6CC] to-[#FFDFC0]"
+      className="min-h-screen px-4 sm:px-6 py-6 bg-gradient-to-br from-[#FFE4E1] via-[#FFD6D1] to-[#FFF1EE]"
       style={{ fontFamily: "'Lora', serif", color: "#5C3A21" }}
     >
       <div className="max-w-4xl mx-auto bg-[#FFF8F0]/95 p-4 sm:p-6 rounded-2xl shadow-xl">
@@ -94,7 +94,7 @@ const CartPage = () => {
                       <Button
                         variant="ghost"
                         size="icon"
-                        className="p-2 sm:p-3"
+                        className="p-2 sm:p-3 bg-gradient-to-r from-[#FFB199] via-[#FF8A7A] to-[#FF6F61] text-white hover:opacity-90"
                         onClick={() => dispatch(decrementQty(item.id))}
                       >
                         <Minus className="h-4 w-4 sm:h-5 sm:w-5" />
@@ -103,7 +103,7 @@ const CartPage = () => {
                       <Button
                         variant="ghost"
                         size="icon"
-                        className="p-2 sm:p-3"
+                        className="p-2 sm:p-3 bg-gradient-to-r from-[#FFB199] via-[#FF8A7A] to-[#FF6F61] text-white hover:opacity-90"
                         onClick={() => dispatch(incrementQty(item.id))}
                       >
                         <Plus className="h-4 w-4 sm:h-5 sm:w-5" />
@@ -117,7 +117,7 @@ const CartPage = () => {
                     <Button
                       variant="ghost"
                       size="icon"
-                      className="p-2 sm:p-3 text-red-600"
+                      className="p-2 sm:p-3 bg-gradient-to-r from-[#FFB199] via-[#FF8A7A] to-[#FF6F61] text-white hover:opacity-90"
                       onClick={() => dispatch(removeFromCart(item.id))}
                     >
                       <Trash2 className="h-4 w-4 sm:h-5 sm:w-5" />
@@ -132,7 +132,7 @@ const CartPage = () => {
                 Total: ¥{calculateTotal().toLocaleString()}
               </p>
               <Button
-                className="mt-4 w-full sm:w-auto bg-[#A6693A] hover:bg-[#8C532F] text-[#FFF8F0] font-bold py-2 sm:py-3"
+                className="mt-4 w-full sm:w-auto bg-gradient-to-r from-[#FFB199] via-[#FF8A7A] to-[#FF6F61] text-white font-bold py-2 sm:py-3"
                 onClick={() => navigate("/checkout")}
               >
                 Check Out

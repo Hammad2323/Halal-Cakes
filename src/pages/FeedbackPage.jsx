@@ -104,7 +104,7 @@ const FeedbackPage = () => {
     <div
       className="min-h-screen px-4 py-10"
       style={{
-        background: "linear-gradient(to bottom, #FFF3E0, #FFE6CC, #FFDFC0)",
+        background: "linear-gradient(to-br, #FFE4E1, #FFD6D1, #FFF1EE)",
         color: "#5C3A21",
         fontFamily: "'Lora', serif",
       }}
@@ -191,7 +191,7 @@ const FeedbackPage = () => {
 
           <button
             type="submit"
-            className="w-full rounded-xl bg-[#C97B50] hover:bg-[#B36842] text-white font-bold py-3 shadow-lg transition transform hover:scale-105"
+            className="w-full rounded-xl bg-gradient-to-r from-[#FFB199] via-[#FF8A7A] to-[#FF6F61] hover:scale-105 text-white font-bold py-3 shadow-lg transition transform"
             disabled={!rating}
           >
             Submit Review

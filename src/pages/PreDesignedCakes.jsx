@@ -6,12 +6,26 @@ import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "@/store/cartSlice";
 import { Link } from "react-router-dom";
 import { ShoppingCart } from "lucide-react";
+import { useLocation } from "react-router-dom";
+import { useEffect } from "react";
 
 const PreDesignedCakes = () => {
   const dispatch = useDispatch();
   const cartItems = useSelector((state) => state.cart.items);
   const totalItems = cartItems.reduce((sum, i) => sum + i.quantity, 0);
+const location = useLocation();
 
+useEffect(() => {
+  if (location.state?.scrollTo) {
+  const el = document.getElementById(location.state.scrollTo);
+
+  setTimeout(() => {
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  }, 100);
+}
+}, [location]);
   const [selectedSizes, setSelectedSizes] = useState({});
   const [addedItems, setAddedItems] = useState({});
 
@@ -20,67 +34,101 @@ const PreDesignedCakes = () => {
   };
 
   const handleAddToCart = (itemKey, item) => {
-    dispatch(addToCart(item));
-    setAddedItems((prev) => ({ ...prev, [itemKey]: true }));
-  };
+  dispatch(addToCart(item));
+  setAddedItems((prev) => ({ ...prev, [itemKey]: true }));
 
-  const btnClass = (itemName) =>
-    `mt-3 w-full text-center font-[PlayfairDisplay] font-bold rounded-xl py-2 sm:py-3 text-sm sm:text-base shadow-lg transition-all duration-300 ${
-      addedItems[itemName]
-        ? "bg-[#B47C3B] text-white hover:bg-[#A65D2F]"
-        : "bg-gradient-to-r from-[#A06338] via-[#5C3A21] to-[#B47C3B] text-white hover:shadow-2xl hover:scale-105"
-    }`;
+  setFlyItem(itemKey);
+  setTimeout(() => setFlyItem(null), 700);
+};
+const [flyItem, setFlyItem] = useState(null);
 
-  const imgClass =
-    "w-28 h-28 sm:w-36 sm:h-36 md:w-40 md:h-40 object-cover rounded-lg mx-auto hover:scale-110 transition-transform duration-500 shadow-md";
+const pageBg =
+  "p-3 sm:p-6 space-y-14 bg-gradient-to-br from-[#FFFFFF] via-[#FFF6F2] to-[#FFF9F7] min-h-screen relative font-[PlayfairDisplay] text-[#2F1F1B]";
 
-  const cardClass =
-    "bg-gradient-to-br from-[#FFF1E0] via-[#FFE6D5] to-[#FFF3DB] text-[#5C3A21] text-center p-4 sm:p-6 shadow-2xl rounded-xl border border-[#FFDAB3] hover:shadow-3xl hover:-translate-y-2 transition-all duration-500";
+const cardClass =
+  "relative bg-white text-[#2F1F1B] text-center p-4 sm:p-5 md:p-6 shadow-[0_10px_40px_rgba(0,0,0,0.08)] border border-[#F3E7E2] transition-all duration-500 overflow-hidden group hover:-translate-y-2 hover:scale-[1.03] hover:shadow-[0_35px_100px_rgba(255,120,90,0.18)] opacity-0 translate-y-6 animate-[fadeInUp_0.8s_ease_forwards]";
+
+
+const btnClass = (itemName) =>
+  `mt-4 w-full py-3 text-sm sm:text-base font-semibold tracking-wide transition-all duration-300 shadow-md rounded-none ${
+    addedItems[itemName]
+      ? "bg-emerald-600 text-white"
+      : "bg-gradient-to-r from-[#FFB199] via-[#FF7F6A] to-[#FF5F4A] text-white hover:scale-[1.02] hover:shadow-orange-300 active:scale-95"
+  }`;
+
+const imgClass =
+  "w-40 h-40 sm:w-48 sm:h-48 md:w-56 md:h-56 object-cover mx-auto mb-3 shadow-[0_20px_60px_rgba(0,0,0,0.15)] transition-all duration-500 group-hover:scale-105";
 
   return (
-    <div className="p-4 sm:p-6 space-y-12 bg-gradient-to-br from-[#FFF1E0] via-[#FFE6D5] to-[#FFF3DB] min-h-screen relative font-[PlayfairDisplay] text-[#5C3A21]">
-
-     
-      <Link
-        to="/cart"
-        className="fixed bottom-4 right-4 z-50 bg-gradient-to-r from-[#A06338] via-[#5C3A21] to-[#B47C3B] text-white rounded-full p-4 shadow-xl flex items-center justify-center hover:scale-110 transition-transform duration-300"
-      >
-        <div className="relative">
-          <ShoppingCart size={24} />
-          {totalItems > 0 && (
-            <span className="absolute -top-2 -right-2 bg-[#B47C3B] text-white text-xs font-bold rounded-full px-2 py-0.5">
-              {totalItems}
-            </span>
-          )}
-        </div>
-      </Link>
+    <div className="p-4 sm:p-6 space-y-12 bg-[#FFF0F3] min-h-screen relative font-[PlayfairDisplay] text-[#4B2E2E] overflow-hidden">
 
     
-      <section>
-        <h2 className="text-3xl sm:text-4xl font-extrabold mb-8 text-center bg-gradient-to-r from-[#A06338] via-[#5C3A21] to-[#B47C3B] bg-clip-text text-transparent drop-shadow-lg">
-          Cakes
+      <div className="absolute top-10 left-10 w-72 h-72 bg-pink-200 opacity-30 blur-3xl rounded-full animate-pulse"></div>
+      <div className="absolute bottom-10 right-10 w-80 h-80 bg-rose-300 opacity-20 blur-3xl rounded-full animate-pulse"></div>
+      <div className="absolute top-1/2 left-1/2 w-[500px] h-[500px] bg-[#FFB199] opacity-10 blur-[120px] -translate-x-1/2 -translate-y-1/2"></div>
+
+      
+<div className="text-center mb-10 mt-3 relative">
+
+  
+  <div className="absolute inset-0 flex justify-center">
+    <div className="w-40 h-40 bg-[#FFB199] blur-3xl opacity-30 rounded-full animate-pulse"></div>
+  </div>
+
+  
+  <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-wide relative">
+    <span className="bg-gradient-to-r from-[#FF7F6A] via-[#E8A87C] to-[#D17B88] bg-clip-text text-transparent animate-pulse">
+      Signature Collection
+    </span>
+  </h1>
+
+  
+  <p className="text-sm sm:text-base text-[#6B4A3F] mt-2 relative">
+    Freshly crafted luxury desserts made with love 
+  </p>
+
+  
+  <div className="absolute left-10 top-2 text-[#FF7F6A] animate-bounce">✦</div>
+  <div className="absolute right-12 top-6 text-[#E8A87C] animate-pulse">✦</div>
+  <div className="absolute left-1/2 bottom-0 text-[#D17B88] animate-bounce">✦</div>
+
+</div>
+     
+     <section id="cakes">
+        <h2 className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-center mb-10">
+          <span className="bg-gradient-to-r from-[#FF7F6A] via-[#E8A87C] to-[#D17B88] bg-clip-text text-transparent">
+            Cakes
+          </span>
         </h2>
-        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 md:gap-8">
+
+        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 md:gap-8">
           {cakes.map((cake) => (
-            <Card key={cake.name} className={cardClass}>
-              <img src={cake.image} alt={cake.name} className={imgClass} />
-              <CardContent className="space-y-2 sm:space-y-3 py-2 sm:py-4">
-                <h3 className="text-base sm:text-lg md:text-xl font-semibold">{cake.name}</h3>
-                <label className="block text-sm sm:text-base font-normal text-[#5C3A21]">
-                  Select size
-                </label>
+            <Card key={cake.name} className={cardClass}  >
+              <img src={cake.image} className={imgClass} />
+              {flyItem === cake.name && (
+  <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+    <div className="animate-bounce text-[#FF7F6A] text-3xl">
+      🛒
+    </div>
+  </div>
+)}
+
+              <CardContent>
+                <h3 className="text-base sm:text-lg font-bold mb-2">{cake.name}</h3>
+
                 <select
-                  className="w-full p-2 text-sm sm:text-base border rounded border-[#D4A87C]"
+                 className="w-full p-2 mt-2 border border-[#F0DCD3] bg-white text-sm"
                   value={selectedSizes[cake.name] || ""}
                   onChange={(e) => handleSizeChange(cake.name, e.target.value)}
                 >
-                  <option value="">Choose...</option>
-                  {Object.keys(cake.prices).map((size) => (
-                    <option key={size} value={size}>
-                      {size} - ¥{cake.prices[size]}
+                  <option value="">Choose size</option>
+                  {Object.keys(cake.prices).map((s) => (
+                    <option key={s} value={s}>
+                      {s} - ¥{cake.prices[s]}
                     </option>
                   ))}
                 </select>
+
                 <Button
                   className={btnClass(cake.name)}
                   onClick={() =>
@@ -102,20 +150,32 @@ const PreDesignedCakes = () => {
         </div>
       </section>
 
-      
-      <section>
-        <h2 className="text-3xl sm:text-4xl font-extrabold mb-8 text-center bg-gradient-to-r from-[#A06338] via-[#5C3A21] to-[#B47C3B] bg-clip-text text-transparent drop-shadow-lg">
-          Cupcakes
+     
+     <section id="cupcakes">
+        <h2 className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-center mb-10">
+          <span className="bg-gradient-to-r from-[#FF7F6A] via-[#E8A87C] to-[#D17B88] bg-clip-text text-transparent">
+            CupCakes
+          </span>
         </h2>
-        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 md:gap-8">
+
+        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 md:gap-8">
           {cupcakes.map((cupcake) => (
             <Card key={cupcake.name} className={cardClass}>
-              <img src={cupcake.image} alt={cupcake.name} className={imgClass} />
-              <CardContent className="space-y-2 sm:space-y-3 py-2 sm:py-4">
-                <h3 className="text-base sm:text-lg md:text-xl font-semibold">{cupcake.name}</h3>
-                <p className="text-sm sm:text-base font-normal text-[#5C3A21]">
-                  8 pcs - ¥{cupcake.price}
-                </p>
+              <img src={cupcake.image} className={imgClass} />
+              {flyItem === cupcake.name && (
+  <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+    <div className="animate-bounce text-[#FF7F6A] text-3xl">
+      🛒
+    </div>
+  </div>
+)}
+
+              <CardContent>
+              <h3 className="text-base sm:text-lg font-bold mb-2">{cupcake.name}</h3>
+
+<p className="text-sm text-[#6B4A3F] mb-2">
+  8 pcs - ¥{cupcake.price}
+</p>
                 <Button
                   className={btnClass(cupcake.name)}
                   onClick={() =>
@@ -135,19 +195,33 @@ const PreDesignedCakes = () => {
         </div>
       </section>
 
-      <section>
-        <h2 className="text-3xl sm:text-4xl font-extrabold mb-8 text-center bg-gradient-to-r from-[#A06338] via-[#5C3A21] to-[#B47C3B] bg-clip-text text-transparent drop-shadow-lg">
-          Doughnuts
+     
+      <section id="doughnuts">
+      <h2 className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-center mb-10">
+          <span className="bg-gradient-to-r from-[#FF7F6A] via-[#E8A87C] to-[#D17B88] bg-clip-text text-transparent">
+            Doughnuts
+          </span>
         </h2>
-        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 md:gap-8">
+
+       <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 md:gap-8">
           {doughnuts.map((item) => (
             <Card key={item.name} className={cardClass}>
-              <img src={item.image} alt={item.name} className={imgClass} />
-              <CardContent className="space-y-2 sm:space-y-3 py-2 sm:py-4">
-                <h3 className="text-base sm:text-lg md:text-xl font-semibold">{item.name}</h3>
-                <p className="text-sm sm:text-base font-normal text-[#5C3A21]">
-                  {item.pieces} pcs - ¥{item.price}
-                </p>
+              <img src={item.image} className={imgClass} />
+              {flyItem === item.name && (
+  <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+    <div className="animate-bounce text-[#FF7F6A] text-3xl">
+      🛒
+    </div>
+  </div>
+)}
+
+              <CardContent>
+               <h3 className="text-base sm:text-lg font-bold mb-2">{item.name}</h3>
+
+<p className="text-sm text-[#6B4A3F] mb-2">
+  {item.pieces} pcs - ¥{item.price}
+</p>
+
                 <Button
                   className={btnClass(item.name)}
                   onClick={() =>
@@ -167,20 +241,32 @@ const PreDesignedCakes = () => {
         </div>
       </section>
 
-    
-      <section>
-        <h2 className="text-3xl sm:text-4xl font-extrabold mb-8 text-center bg-gradient-to-r from-[#A06338] via-[#5C3A21] to-[#B47C3B] bg-clip-text text-transparent drop-shadow-lg">
-          Extras
+     
+      <section id="delicacies">
+        <h2 className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-center mb-10">
+          <span className="bg-gradient-to-r from-[#FF7F6A] via-[#E8A87C] to-[#D17B88] bg-clip-text text-transparent">
+            Delicacies
+          </span>
         </h2>
-        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 md:gap-8">
+
+        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 md:gap-8">
           {extras.map((item) => (
             <Card key={item.name} className={cardClass}>
-              <img src={item.image} alt={item.name} className={imgClass} />
-              <CardContent className="space-y-2 sm:space-y-3 py-2 sm:py-4">
-                <h3 className="text-base sm:text-lg md:text-xl font-semibold">{item.name}</h3>
-                <p className="text-sm sm:text-base font-normal text-[#5C3A21]">
-                  ¥{item.price}
-                </p>
+              <img src={item.image} className={imgClass} />
+              {flyItem === item.name && (
+  <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+    <div className="animate-bounce text-[#FF7F6A] text-3xl">
+      🛒
+    </div>
+  </div>
+)}
+
+              <CardContent>
+              <h3 className="text-base sm:text-lg font-bold mb-2">{item.name}</h3>
+
+<p className="text-sm text-[#6B4A3F] mb-2">
+  ¥{item.price}
+</p>
                 <Button
                   className={btnClass(item.name)}
                   onClick={() =>

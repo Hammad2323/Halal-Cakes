@@ -51,142 +51,178 @@ const CustomizeCake = () => {
   };
 
   return (
-    <div className="relative min-h-screen flex justify-center items-start bg-gradient-to-b from-[#FDF0E0] to-[#FCE5C0] pb-16 px-4 sm:px-6 font-['Poppins']">
-     
+    <div className="relative min-h-screen flex justify-center items-start bg-gradient-to-br from-[#FFE4E1] via-[#FFD6D1] to-[#FFF1EE] pb-16 px-4 sm:px-6 font-['Poppins'] overflow-hidden">
+
+      {/* soft glow */}
+      <div className="absolute top-10 left-10 w-72 h-72 bg-pink-300 opacity-30 blur-3xl rounded-full animate-pulse"></div>
+      <div className="absolute bottom-10 right-10 w-80 h-80 bg-rose-200 opacity-30 blur-3xl rounded-full animate-pulse"></div>
+
+      {/* backdrop image */}
       <div className="absolute inset-0">
-        <img src="/customize.jpg" alt="Customize background" className="w-full h-full object-cover opacity-25" />
-        <div className="absolute inset-0 bg-[#FDF0E0]/60 backdrop-blur-sm"></div>
+        <img
+          src="/customize.jpg"
+          alt="Customize background"
+          className="w-full h-full object-cover opacity-20"
+        />
+        <div className="absolute inset-0 bg-pink-100/60 backdrop-blur-sm"></div>
       </div>
 
     
-      <button
-        className="fixed sm:absolute top-6 right-6 flex items-center gap-2 bg-[#A6693A] text-[#FFF8F0] px-4 py-2 rounded-full shadow-lg hover:bg-[#8C532F] transition text-base z-50"
-        onClick={() => navigate("/cart")}
-      >
-        <div className="relative">
-          <ShoppingCart size={22} />
-          {cartCount > 0 && (
-            <span className="absolute -top-2 -right-2 bg-[#FFF8F0] text-[#A6693A] text-xs font-bold rounded-full px-1.5 py-0.5">
-              {cartCount}
-            </span>
-          )}
-        </div>
-        <span className="hidden sm:inline">Cart</span>
-      </button>
 
-    
-      <div className="relative w-full max-w-2xl bg-[#FFF8F0]/95 p-6 sm:p-10 rounded-3xl shadow-2xl z-10 backdrop-blur-md text-[#7A4F2B]">
-        <h1 className="text-3xl sm:text-5xl font-extrabold mb-8 sm:mb-12 text-center drop-shadow-md">
-          🎂 Customize Your Cake
-        </h1>
+     
+      <div className="relative w-full max-w-2xl bg-white/80 p-6 sm:p-10 rounded-3xl shadow-[0_30px_100px_rgba(0,0,0,0.12)] z-10 backdrop-blur-xl text-[#4A2E24] border border-white/60">
 
-       
-        {[
-          { label: "Cake Sponge", key: "sponge", options: spongeOptions, otherKey: "otherSponge" },
-          { label: "Shape", key: "shape", options: shapeOptions, otherKey: "otherShape" },
-          { label: "Icing Type", key: "icing", options: icingOptions },
-          { label: "Icing Flavor", key: "icingFlavors", options: icingFlavorOptions, otherKey: "otherIcingFlavor" },
-          { label: "Filling", key: "filling", options: fillingOptions, otherKey: "otherFilling" },
-        ].map((field) => (
-          <div key={field.key} className="mb-6 sm:mb-8">
-            <Label className="block text-lg font-semibold mb-3 text-[#7A4F2B]">{field.label}</Label>
-            <select
-              value={formData[field.key]}
-              onChange={(e) => handleChange(field.key, e.target.value)}
-              className="w-full p-3 border-2 border-[#D9B38C] rounded-xl shadow-sm bg-[#FFF8F0] focus:ring-2 focus:ring-[#A6693A] text-[#7A4F2B] text-base sm:text-lg"
-            >
-              <option value="">Select {field.label}</option>
-              {field.options.map((option) => (
-                <option key={option} value={option}>{option}</option>
-              ))}
-            </select>
-            {formData[field.key] === "Other" && field.otherKey && (
-              <Input
-                className="mt-3 w-full text-sm border-[#D9B38C] rounded-xl shadow-sm"
-                placeholder={`Enter ${field.label}`}
-                value={formData[field.otherKey]}
-                onChange={(e) => handleChange(field.otherKey, e.target.value)}
-              />
-            )}
-          </div>
-        ))}
-
-       
-        <div className="mb-8 sm:mb-10 text-center">
-          <h2 className="text-xl sm:text-2xl font-semibold mb-3">
-            Upload a Photo / Sketch <span className="text-[#D9B38C] text-sm">(optional)</span>
-          </h2>
-          <Input
-            type="file"
-            accept="image/*"
-            onChange={(e) => handleChange("photo", e.target.files[0])}
-            className="w-full border-2 border-[#D9B38C] rounded-xl shadow-sm bg-[#FFF8F0]"
-          />
-        </div>
-
-      
-        <div className="mb-8 sm:mb-10">
-          <h2 className="text-xl sm:text-2xl font-semibold mb-3 text-center">Special Requests</h2>
-          <textarea
-            className="w-full border-2 border-[#D9B38C] rounded-2xl p-3 sm:p-4 shadow-md focus:ring-2 focus:ring-[#F4D6B0] transition resize-none bg-[#FFF8F0]"
-            rows="3"
-            placeholder="Write any specific instructions..."
-            value={formData.specialRequest}
-            onChange={(e) => handleChange("specialRequest", e.target.value)}
-          ></textarea>
+        {/* HEADER */}
+        <div className="text-center mb-10">
+          <p className="text-xs tracking-[0.35em] uppercase text-[#C27C6B] font-semibold">
+            Signature Cake Studio
+          </p>
+          <h1 className="text-3xl sm:text-5xl font-extrabold mt-2 bg-gradient-to-r from-[#FFB199] via-[#FF8A7A] to-[#FF6F61] bg-clip-text text-transparent">
+            🎂 Customize Your Cake
+          </h1>
         </div>
 
        
-        <div className="mb-8 sm:mb-12 text-center">
-          <h2 className="text-xl sm:text-2xl font-semibold mb-4">Number of Servings</h2>
-          <div className="flex flex-wrap justify-center gap-3 sm:gap-4">
-            {servingsOptions.map((option) => (
-              <button
-                key={option}
-                className={`px-4 sm:px-6 py-2 sm:py-3 rounded-full border-2 font-medium text-sm sm:text-base shadow-sm transition 
-                           ${formData.servings === option
-                             ? "bg-[#A6693A] text-[#FFF8F0] border-[#A6693A]"
-                             : "bg-[#FFF8F0] text-[#A6693A] border-[#D9B38C] hover:bg-[#F4D6B0]"
-                           }`}
-                onClick={() => handleChange("servings", option)}
-              >
-                {option}
-              </button>
+        <div className="space-y-8">
+
+          
+          <div className="p-4 rounded-2xl bg-white/60 border border-pink-200 shadow-sm">
+            <p className="text-sm font-semibold text-[#C27C6B] mb-4">Step 1 • Base Selection</p>
+
+            {[
+              { label: "Cake Sponge", key: "sponge", options: spongeOptions, otherKey: "otherSponge" },
+              { label: "Shape", key: "shape", options: shapeOptions, otherKey: "otherShape" },
+              { label: "Icing Type", key: "icing", options: icingOptions },
+            ].map((field) => (
+              <div key={field.key} className="mb-5">
+                <Label className="block mb-2 font-semibold">{field.label}</Label>
+                <select
+                  value={formData[field.key]}
+                  onChange={(e) => handleChange(field.key, e.target.value)}
+                  className="w-full p-3 rounded-xl border border-pink-200 bg-white/90 focus:ring-2 focus:ring-[#FF8A7A]"
+                >
+                  <option value="">Select {field.label}</option>
+                  {field.options.map((option) => (
+                    <option key={option}>{option}</option>
+                  ))}
+                </select>
+              </div>
             ))}
           </div>
-          {formData.servings && (
-            <div className="mt-3 sm:mt-4 font-semibold text-base sm:text-lg">Price: {priceMap[formData.servings]}</div>
-          )}
+
+        
+          <div className="p-4 rounded-2xl bg-white/60 border border-pink-200 shadow-sm">
+            <p className="text-sm font-semibold text-[#C27C6B] mb-4">Step 2 • Flavor & Filling</p>
+
+            {[
+              { label: "Icing Flavor", key: "icingFlavors", options: icingFlavorOptions, otherKey: "otherIcingFlavor" },
+              { label: "Filling", key: "filling", options: fillingOptions, otherKey: "otherFilling" },
+            ].map((field) => (
+              <div key={field.key} className="mb-5">
+                <Label className="block mb-2 font-semibold">{field.label}</Label>
+                <select
+                  value={formData[field.key]}
+                  onChange={(e) => handleChange(field.key, e.target.value)}
+                  className="w-full p-3 rounded-xl border border-pink-200 bg-white/90 focus:ring-2 focus:ring-[#FF8A7A]"
+                >
+                  <option value="">Select {field.label}</option>
+                  {field.options.map((option) => (
+                    <option key={option}>{option}</option>
+                  ))}
+                </select>
+              </div>
+            ))}
+          </div>
+
+         
+          <div className="p-4 rounded-2xl bg-white/60 border border-pink-200 shadow-sm text-center">
+            <p className="text-sm font-semibold text-[#C27C6B] mb-4">Step 3 • Servings</p>
+
+            <div className="flex flex-wrap justify-center gap-3">
+              {servingsOptions.map((option) => (
+                <button
+                  key={option}
+                  className={`px-5 py-2 rounded-full border transition text-sm
+                  ${formData.servings === option
+                    ? "bg-[#FF8A7A] text-white border-transparent"
+                    : "bg-white text-[#4A2E24] border-pink-200 hover:bg-pink-50"
+                  }`}
+                  onClick={() => handleChange("servings", option)}
+                >
+                  {option}
+                </button>
+              ))}
+            </div>
+
+            {formData.servings && (
+              <p className="mt-4 font-semibold text-[#4A2E24]">
+                Price: {priceMap[formData.servings]}
+              </p>
+            )}
+          </div>
+
+            
+<div className="text-center">
+  <Label className="block mb-3 font-semibold text-[#C27C6B]">
+    Upload a Photo / Sketch <span className="text-xs">(optional)</span>
+  </Label>
+
+  <Input
+    type="file"
+    accept="image/*"
+    onChange={(e) => handleChange("photo", e.target.files[0])}
+    className="w-full border border-pink-200 rounded-2xl p-3 bg-white/90"
+  />
+</div>
+
+          
+          <div>
+            <Label className="block mb-2 font-semibold text-center">Special Requests</Label>
+            <textarea
+              className="w-full border border-pink-200 rounded-2xl p-3 bg-white/90 focus:ring-2 focus:ring-[#FF8A7A]"
+              rows="3"
+              value={formData.specialRequest}
+              onChange={(e) => handleChange("specialRequest", e.target.value)}
+            />
+          </div>
+
+        
+
+          
+          <button
+            className={`w-full font-semibold py-4 rounded-2xl shadow-lg transition text-lg
+            ${isAdded
+              ? "bg-green-500 text-white"
+              : "bg-gradient-to-r from-[#FFB199] via-[#FF8A7A] to-[#FF6F61] text-white hover:scale-[1.02]"
+            }`}
+            onClick={() => {
+              const sponge = formData.sponge === "Other" ? formData.otherSponge : formData.sponge;
+              const shape = formData.shape === "Other" ? formData.otherShape : formData.shape;
+              const icingFlavor = formData.icingFlavors === "Other" ? formData.otherIcingFlavor : formData.icingFlavors;
+              const filling = formData.filling === "Other" ? formData.otherFilling : formData.filling;
+              const price = Number(priceMap[formData.servings]?.replace("¥", "")) || 0;
+
+              if (!sponge || !formData.servings) return;
+
+              dispatch(
+                addToCart({
+                  name: `${sponge} Cake`,
+                  price,
+                  size: formData.servings,
+                  quantity: 1,
+                  image: formData.photo ? URL.createObjectURL(formData.photo) : "/images/custom-cake.jpg",
+                  details: { sponge, shape, icing: formData.icing, icingFlavor, filling, specialRequest: formData.specialRequest },
+                })
+              );
+
+              setIsAdded(true);
+            }}
+            disabled={!formData.sponge || !formData.servings || isAdded}
+          >
+            {isAdded ? "Added to Cart ✅" : "Add to Cart"}
+          </button>
+
         </div>
-
-      
-        <button
-          className={`w-full ${isAdded ? "bg-green-500" : "bg-[#A6693A] hover:bg-[#8C532F]"} 
-                     text-[#FFF8F0] font-semibold py-3 sm:py-4 rounded-2xl shadow-lg transition text-lg`}
-          onClick={() => {
-            const sponge = formData.sponge === "Other" ? formData.otherSponge : formData.sponge;
-            const shape = formData.shape === "Other" ? formData.otherShape : formData.shape;
-            const icingFlavor = formData.icingFlavors === "Other" ? formData.otherIcingFlavor : formData.icingFlavors;
-            const filling = formData.filling === "Other" ? formData.otherFilling : formData.filling;
-            const price = Number(priceMap[formData.servings]?.replace("¥", "")) || 0;
-            if (!sponge || !formData.servings) return;
-
-            dispatch(
-              addToCart({
-                name: `${sponge} Cake`,
-                price,
-                size: formData.servings,
-                quantity: 1,
-                image: formData.photo ? URL.createObjectURL(formData.photo) : "/images/custom-cake.jpg",
-                details: { sponge, shape, icing: formData.icing, icingFlavor, filling, specialRequest: formData.specialRequest },
-              })
-            );
-            setIsAdded(true);
-          }}
-          disabled={!formData.sponge || !formData.servings || isAdded}
-        >
-          {isAdded ? "Added to Cart ✅" : "Add to Cart"}
-        </button>
       </div>
     </div>
   );
