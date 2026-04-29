@@ -10,12 +10,14 @@ import CartPage from "./pages/CartPage";
 import ContactPage from "./pages/ContactPage";
 import CheckoutPage from "./pages/CheckoutPage";
 import FeedbackPage from "./pages/FeedbackPage";
+import ScrollToTop from "./components/ScrollToTop";
 
 function App() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-pink-100 via-orange-50 to-pink-200">
 
       <Navbar />
+      <ScrollToTop />
 
       <main className="pt-28 md:pt-32">
         <div className="max-w-7xl mx-auto px-4 py-10">
